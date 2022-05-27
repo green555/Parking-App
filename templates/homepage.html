@@ -1,0 +1,111 @@
+{% extends 'base.html' %}
+{% block title %}Parking Search Home{% endblock %}
+
+{% block head %}
+  <link rel="stylesheet" href="/static/css/maps.css"/>
+{% endblock %}
+
+{% block body %}
+  <script>var coords="{{ coords }}";</script>
+
+  <script src="/static/js/homepage.js"></script>
+  <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD6dcW5pE-CSD_XbsVRPhdEfFHSOanDzYU&callback=initMap"></script>
+  <h1>Welcome!</h1>
+
+  <section class="map">
+    <div id="map"></div>
+  </section>
+
+  
+  <div id="meter_list">
+    {% for coord in coords["data"] %}
+        <li>{{coord["street_address"]}}</li>
+    {% endfor %}
+  </div>  
+
+
+  <h2>Enter your address</h2>
+  <form action="/address" method=POST>
+    <p>Street Address <input type="text" name="street"></p>
+    <p>City <input type="text" name="city", value="San Francisco"></p>
+    <p>
+      State
+      <select name="state">
+        <option value="AR">Arkansas</option>
+        <option value="CA" selected="selected">California</option>
+      </select>	
+    </p>
+    <p>
+      Search Radius
+      <input type="number" id="radius" name="radius" min="0.1" max="0.5" step="0.1" value="0.1"> Mile(s)
+    </p>
+    <p>
+      <input type="submit" id="submit-address">
+    </p>
+  </form>
+
+  
+  <section>
+    <h2>Allow tracking of your current location?</h2>
+    <button id="allow_curr_location">OK</button>
+  </section>
+
+
+  <!-- <section>
+    <h2>log in for more features</h2>
+    <button id="log-in">LOG IN</button>
+    <button id="sign-up">SIGN UP</button>
+  </section> -->
+
+
+
+  <section>
+    <h2>log in to leave comments</h2>
+    <form action="/login">
+      <input type="submit" value="login" name="login"/>
+      <input type="submit" value="signup" name="signup"/>
+  </form>
+  </section>
+
+
+
+  <section id="form">
+  </section>
+
+
+
+  <h2>Create an Account</h2>
+  <form action="/users" method="POST">
+    <p>
+      Email <input type="text" name="email">
+    </p>
+
+    <p>
+      Password <input type="password" name="password">
+    </p>
+
+    <p>
+      <input type="submit">
+    </p>
+  </form>
+
+  <h2>Log In</h2>
+  <form action="/login" method="POST">
+    <p>
+      Email <input type="text" name="email">
+    </p>
+
+    <p>
+      Password <input type="password" name="password">
+    </p>
+
+    <p>
+      <input type="submit">
+    </p>
+  </form>
+
+  <!-- <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD6dcW5pE-CSD_XbsVRPhdEfFHSOanDzYU&callback=markerAdder"></script> -->
+  <!-- <script src="/static/js/homepage.js"></script> -->
+{% endblock %}
+
+
