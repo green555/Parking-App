@@ -144,41 +144,41 @@ def login():
         return jsonify({"data": False})
     # return render_template('homepage.html', user_id=user_id)
     
-@app.route('/signup', methods=['POST'])
-def signup():
-    """user signup"""
+# @app.route('/signup', methods=['POST'])
+# def signup():
+#     """user signup"""
 
-    login_email = request.form.get('email')
-    login_password = request.form.get('password')
-    confirm_password = request.form.get('confirm-password')
-    print(login_email)
-    print(login_password)
-    print(confirm_password)
-    if crud.get_user_by_email(login_email):
-        flash('User exits, Please sign in instead!')
-        session.clear()
-        return redirect('/')
-    elif login_password == confirm_password:
-        crud.create_user(login_email, confirm_password)
-        session['email'] = login_email
-        flash('User created and you are currently login')
-        return redirect('/')
-    else:
-        alert('password does not match, try again')
+#     login_email = request.form.get('email')
+#     login_password = request.form.get('password')
+#     confirm_password = request.form.get('confirm-password')
+#     print(login_email)
+#     print(login_password)
+#     print(confirm_password)
+#     if crud.get_user_by_email(login_email):
+#         flash('User exits, Please sign in instead!')
+#         session.clear()
+#         return redirect('/')
+#     elif login_password == confirm_password:
+#         crud.create_user(login_email, confirm_password)
+#         session['email'] = login_email
+#         flash('User created and you are currently login')
+#         return redirect('/')
+#     else:
+#         alert('password does not match, try again')
 
-# @app.route('/rate-movie', methods=['POST'])
-# def rate_movie():
-#     """ get movie name and score"""
-#     movie_title = request.form.get("movie")
-#     score = request.form.get("score")
-#     movie = crud.get_movie_by_title(movie_title)
-#     user = crud.get_user_by_id(session['user_id'])
-
-#     new_rating = crud.create_rating(movie, user, score)
-#     db.session.add(new_rating)
-#     db.session.commit()
-#     flash('rating successfully added')
-#     return render_template('rate_a_movie.html', movies = crud.get_movies())
+@app.route('/create-new-comment', methods=['POST'])
+def comment_meter():
+    """ get movie name and score"""
+    meterID = request.json.get("meterID")
+    # score = request.json.get("score")
+    comment = request.json.get("comment")    
+    user = crud.get_user_by_id(session['user_id'])
+    parking = crud.get_parking_by_id(meterID)
+    new_rating = crud.create_rating(parking, user, comment)
+    db.session.add(new_rating)
+    db.session.commit()
+    
+    return ('', 204)
 
 
 @app.route('/users/<user_id>')

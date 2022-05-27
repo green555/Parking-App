@@ -212,13 +212,37 @@ function initMap() {
 
   });
 
+  document.querySelector('#comment-submit').addEventListener('click',
+  evt => {
+    evt.preventDefault();
+    const comment = document.querySelector('#comment').value;
+    const meterID = document.querySelector('#comment-list').value;
+    console.log('********', meterID);
+    const commentInput = { comment: comment, meterID: meterID }
+    console.log(commentInput);
+    fetch('/create-new-comment', {
+      method: 'POST',
+      body: JSON.stringify(commentInput),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+    // .then((response) => alert('Comment successfully added!')); // end of .then
+  
+    }
+  );
+
   // helper function to remove map markers from previous search
 
   function removePreviousMarkers() {
     if (markerArray) {
       for (const marker of markerArray) {
-        marker.setMap(null);        
+        marker.setMap(null);
         markerArray = [];
+      }
+      let optionEntries = document.querySelectorAll('.temp-entry');
+      for(const option of optionEntries) {
+        option.remove();
       }
     }
   }
@@ -258,8 +282,8 @@ function initMap() {
             infoWindow.open(basicMap, marker);
           });
       
-      document.querySelector('#meter_list').insertAdjacentHTML('beforeend', `<li>${coord.street_address}</li>`);
-      document.querySelector('#option').insertAdjacentHTML('afterend', `<option value=${coord.id}>${coord.street_address}</option>`);
+      document.querySelector('#meter_list').insertAdjacentHTML('beforeend', `<li class='temp-entry'>${coord.id}.\t${coord.street_address}</li>`);
+      document.querySelector('#option').insertAdjacentHTML('afterend', `<option value=${coord.id} class='temp-entry'>${coord.street_address}</option>`);
 
     }
 

@@ -54,12 +54,13 @@ def get_parking_by_location(curr_lat, curr_lng, radius):
 
     return Parking.query.filter( ((Parking.latitude > min_lat) & (Parking.latitude < max_lat)) & ((Parking.longitude > min_lng) & (Parking.longitude < max_lng)) ).all()
 
-def create_rating(parking, user, score, comment):
+def create_rating(parking, user, comment, score=None):
     """ create rating instance and return a new rating"""
     # rate = Rating(movie_id = movie.movie_id, user_id = user.user_id, score=score)
-    rate = Rating(parking = parking, user = user, score = score, comment = comment)
+    rate = Rating(parking = parking, user = user, comment = comment, score=score)
     #movie on the left of = is the attribute name, movie on the right of= is movie instance
     return rate
+
 
 
 if __name__ == '__main__':
