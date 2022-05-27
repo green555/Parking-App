@@ -156,6 +156,7 @@ function initMap() {
           showForm('comment-form');
           document.querySelector('#logoff').removeAttribute("hidden");
           document.querySelector('#user').removeAttribute("hidden");
+          document.querySelector('#user').innerHTML=email;
         }
         else {alert('email or password is incorrect, please try again.');} 
       });// end of .then
@@ -192,6 +193,8 @@ function initMap() {
           hideForm('signup-form');
           showForm('comment-form');
           document.querySelector('#logoff').removeAttribute("hidden");
+          document.querySelector('#user').removeAttribute("hidden");
+          document.querySelector('#user').innerHTML=email;
         }
         else {
           alert('Account already exits. Please sign in');
@@ -209,6 +212,7 @@ function initMap() {
     document.querySelector('#logoff').setAttribute("hidden", true);
     showForm('login-entry');
     hideForm('comment-form');
+    document.querySelector('#user').setAttribute("hidden", true)
 
   });
 
