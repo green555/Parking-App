@@ -52,8 +52,10 @@ def get_parking_by_location(curr_lat, curr_lng, radius):
     min_lng = curr_lng - dis_lng
     max_lng = curr_lng + dis_lng
 
-    return Parking.query.filter( ((Parking.latitude > min_lat) & (Parking.latitude < max_lat)) & ((Parking.longitude > min_lng) & (Parking.longitude < max_lng)) ).all()
-
+    
+    return Parking.query.filter( ((Parking.latitude > min_lat) & (Parking.latitude < max_lat)) & ((Parking.longitude > min_lng) & (Parking.longitude < max_lng)) )\
+            .order_by((Parking.latitude - curr_lat)*(Parking.latitude - curr_lat) + (Parking.longitude - curr_lng)*(Parking.longitude - curr_lng)).limit(20).all()
+    # Human.query.options(db.joinedload("animals")).get(5).animals
 def create_rating(parking, user, comment, score=None):
     """ create rating instance and return a new rating"""
     # rate = Rating(movie_id = movie.movie_id, user_id = user.user_id, score=score)

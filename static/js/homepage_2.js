@@ -2,6 +2,8 @@
 
 // We use a function declaration for initMap because we actually *do* need
 // to rely on value-hoisting in this circumstance.
+
+let currInfoWindow = null;
 let markerArray = [];
 
 
@@ -47,7 +49,7 @@ function initMap() {
     const street = document.querySelector("#street").value;
     const city = document.querySelector("#city").value;
     const radius = document.querySelector("#radius").value;
-    const addressInput = {
+    let addressInput = {
       street: street,
       city: city,
       radius: radius
@@ -69,7 +71,7 @@ function initMap() {
     } // end of event response function
   ); // end of addEventListener
   
-
+  
   document.querySelector("#allow_curr_location").addEventListener('click', 
    evt => {
     evt.preventDefault();
@@ -174,7 +176,6 @@ function initMap() {
       password: password,
       confirmPassowrd: confirmPassword
       }
-      console.log(signupInput)
       if(!email || !password || !confirmPassword) {alert('email and password are required!')}
       else if(password != confirmPassword) {alert('passwords not identical!');}
       else {    
@@ -220,10 +221,8 @@ function initMap() {
   evt => {
     evt.preventDefault();
     const comment = document.querySelector('#comment').value;
-    const meterID = document.querySelector('#comment-list').value;
-    console.log('********', meterID);
+    const meterID = document.querySelector('#comment-list').value;    
     const commentInput = { comment: comment, meterID: meterID }
-    console.log(commentInput);
     fetch('/create-new-comment', {
       method: 'POST',
       body: JSON.stringify(commentInput),
@@ -254,16 +253,29 @@ function initMap() {
   // helper function to create map marker on the current address
   function markCurrentAddress(result) {   
     
+      
     const image =
-    "https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png";
-      let currCoords = {lat: result.curr_coords.lat, lng: result.curr_coords.lng};
-      const selfMarker = new google.maps.Marker({position: currCoords, title: "you are here", map: basicMap, icon: image});
-      markerArray.push(selfMarker);
+      "https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png";
+    
+    let currCoords = {lat: result.curr_coords.lat, lng: result.curr_coords.lng};
+    const selfMarker = new google.maps.Marker({position: currCoords, title: "you are here", map: basicMap, icon: image});
+    markerArray.push(selfMarker);
+    
+    
 
   }
 
   // helper function to create map markers for the nearby meters
   function markNearbyMeters(result) {
+
+    let bounds = new google.maps.LatLngBounds();
+    bounds.extend({lat: result.curr_coords.lat, lng: result.curr_coords.lng});
+    // [result.curr_coords.lat - 0.0015, result.curr_coords.lng + 0.0019 ], [result.curr_coords.lat + 0.0015, result.curr_coords.lng - 0.0019]
+    
+    // const selfMarker = new google.maps.Marker({position: currCoords, map: basicMap});
+    
+    
+
     for (const coord of result["data"]) {
       const meterCoords = {lat: coord.lat, lng: coord.lng};
       const markerInfo = `
@@ -278,19 +290,26 @@ function initMap() {
             content: markerInfo,
             maxWidth: 200,
           });
+      
       const marker = new google.maps.Marker({position: meterCoords, title: null, map: basicMap});
       markerArray.push(marker);
+      bounds.extend(marker.position);
       
-
+      
       marker.addListener('click', () => {
+            if (currInfoWindow){
+              currInfoWindow.close();
+            }
             infoWindow.open(basicMap, marker);
+            currInfoWindow = infoWindow;
           });
       
       document.querySelector('#meter_list').insertAdjacentHTML('beforeend', `<li class='temp-entry'>${coord.id}.\t${coord.street_address}</li>`);
       document.querySelector('#option').insertAdjacentHTML('afterend', `<option value=${coord.id} class='temp-entry'>${coord.street_address}</option>`);
 
     }
-
+    
+    basicMap.fitBounds(bounds);
   }
 
   // function addComment(markerArray) {
@@ -315,78 +334,3 @@ function initMap() {
 
 } // end of initMap function
 
-
-
-
-//   const allow_track_location = document.querySelector("#allow_curr_location");
-  
-//   if(allow_track_location){allow_track_location.addEventListener('click', get_location);
-//   function get_location() {
-//       console.log("inside get_location");
-//       navigator.geolocation.getCurrentPosition(success);
-//     }
-//   function success(position) {
-//       let curr_lat = position.coords.latitude;
-//       let curr_lng = position.coords.longitude;
-      
-//       const formInputs = {
-//         lat: curr_lat,
-//         lng: curr_lng
-//       };
-      
-//       console.log(formInputs);
-  
-//       fetch('/track_curr_location', {
-//         method: 'POST',
-//         body: JSON.stringify(formInputs),
-//         headers: {
-//           'Content-Type': 'application/json',
-//         },
-//       })
-//       .then((response) => {alert('successfully get your current location')})
-//   }  
-  
-// }
-
-// }
-
-
-
-// const loginButton = document.querySelector("#log-in");
-// console.log(loginButton);
-// function showLoginForm() {
-  
-//   console.log("inside showLoginForm function");
-//   document.querySelector("#form").innerHTML=`
-//   <div>  
-//     <h2>Log In</h2>
-//     <form action="/login" method="POST">
-//       <p>Email <input type="text" name="email"></p>
-
-//       <p>Password <input type="password" name="password"></p>
-
-//       <p><input type="submit"></p>
-//     </form>
-  
-//   </div>
-//   `;
-// }
-// if(loginButton){loginButton.addEventListener('click', showLoginForm);}
-
-
-// const addressSub = document.querySelector("#submit-address")
-// const addParkingMarker = () => {
-//   fetch('/adress')
-//     .then((response) => response.json())
-//     .then((result) => {
-//         const parkings = result.data;
-//         const currLocation = result.curr_coords;
-//         new google.maps.Marker({position: currLocation, title: 'you are here', map: basicMap});
-//         for (const parking of parkings) {
-//           const meterCoords = {lat: parking.lat, lng: parking.lng};
-//           new google.maps.Marker({position: meterCoords, title: null, map: basicMap});
-          
-//         }
-            
-//     });
-// 

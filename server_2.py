@@ -47,6 +47,7 @@ def get_nearby_meters():
         curr_street = request.json.get("street")
         curr_city = request.json.get("city")
         curr_radius = request.json.get("radius")
+        curr_list = request.json.get('i')
         city = curr_city.replace(' ', '+')
         address = curr_street.replace(' ', '+')
 
@@ -64,7 +65,25 @@ def get_nearby_meters():
 
     curr_coords = {"lat": curr_lat, "lng": curr_lng}
     parkings = crud.get_parking_by_location(curr_lat, curr_lng, curr_radius)
+    # print(parkings[0:3])
+    # parkings.sort(key= ((Parking.latitude - curr_lat) ** 2 + (Parking.longitude - curr_lng) ** 2) )
+
     parks_info = []
+    # begin = i * 20
+    # end = (i+1) * 20
+    # total = len(sorted_parkings)
+    
+    # if end <= total:
+    #     begin = begin
+    #     end = end
+    #     list_end = False
+
+    # elif begin <= total:
+    #     begin = begin
+    #     end = total
+    #     list_end = True    
+
+         
     for parking in parkings:
         park_address_url = f'https://maps.googleapis.com/maps/api/geocode/json?latlng={parking.latitude},{parking.longitude}&key={API_KEY}'
         address_result = requests.get(park_address_url).json()
@@ -72,9 +91,10 @@ def get_nearby_meters():
         # print('*************', address)
         park_info = {"lat": parking.latitude, "lng": parking.longitude, "street_address": address.split(',')[0], "id": parking.parking_id}
         parks_info.append(park_info)
-    result_dict = {"data": parks_info, "curr_coords": curr_coords}
+    result_dict = {"data": parks_info, "curr_coords": curr_coords }
     return jsonify(result_dict)
 
+    
 
 
 

@@ -59,7 +59,7 @@ class Parking(db.Model):
     
     def __repr__(self):
         return f"""
-        <Parking:\tparking_id={self.parking_id}\tmetered={self.metered}\tlatitude={self.latitude}\tlogitutde={self.logitutde}>
+        <Parking:\tparking_id={self.parking_id}\tmetered={self.metered}\tlatitude={self.latitude}\tlogitude={self.longitude}>
         """
 
 
