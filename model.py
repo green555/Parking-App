@@ -80,7 +80,7 @@ class Rating(db.Model):
     user = db.relationship("User", backref="ratings")
     
     def __repr__(self):
-        return f'<Rating: rating_id={self.rating_id} score={self.score} parking_id={self.movie_id} user_id={self.user_id}>'
+        return f'<Rating: rating_id={self.rating_id} score={self.score} parking_id={self.parking_id} user_id={self.user_id}>'
 
         
 if __name__ == "__main__":

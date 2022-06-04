@@ -230,7 +230,7 @@ function initMap() {
         'Content-Type': 'application/json',
       },
     })
-    // .then((response) => alert('Comment successfully added!')); // end of .then
+    .then((response) => alert('Comment successfully added!')); // end of .then
   
     }
   );
@@ -283,6 +283,9 @@ function initMap() {
         <p>
           Located at: <code>${coord.lat}</code>,
           <code>${coord.lng}</code>
+        </p>
+        <p>
+          <a onClick={showDetails(${coord.id})}>Details</a>
         </p>
       `;
 
