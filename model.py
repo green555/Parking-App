@@ -82,6 +82,22 @@ class Rating(db.Model):
     def __repr__(self):
         return f'<Rating: rating_id={self.rating_id} score={self.score} parking_id={self.parking_id} user_id={self.user_id}>'
 
+
+class Comment(db.Model):
+    """Comments of the APP overall."""
+
+    __tablename__ = "comments"
+
+    comment_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+    comment = db.Column(db.Text)
+    user_email = db.Column(db.Text, default='anonymouse')
+
+    # user = db.relationship("User", backref="comments")
+
+    def __repr__(self):
+        return f'<Comment: comment={self.comment}, user_email={self.user_email}>'
+        
+
         
 if __name__ == "__main__":
     from server import app

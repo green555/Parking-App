@@ -4,7 +4,7 @@ import os
 import json
 from random import choice, randint
 import crud
-from model import db, User, Parking, Rating, connect_to_db
+from model import db, User, Parking, Rating, Comment, connect_to_db
 import server
 
 os.system("dropdb parkings")

@@ -1,4 +1,4 @@
-from model import db, User, Parking, Rating, connect_to_db
+from model import db, User, Parking, Rating, Comment, connect_to_db
 
 
 def create_user(email, password):
@@ -12,10 +12,21 @@ def get_users():
     return User.query.all()
 
 def get_user_by_id(user_id):
-    return User.query.get(user_id)   
+    return User.query.get(user_id)
 
+def get_ave_ratings_by_meter_id(meter_id):
+    all = Rating.query.filter(Rating.parking_id == meter_id).all()
+    total = 0
+    for rate in all:
+        total += rate.score
+    return total / len(all)
+    
 def get_user_by_email(email):
     return User.query.filter(User.email == email).first()
+
+def create_web_comment(comment, user_email="anonymouse"):
+    web_comment = Comment(comment = comment, user_email = user_email)
+    return web_comment
 
 def create_parking(latitude, longitude, metered, street_name, no_of_spots, max_time=None, is_available=None, zipcode=None):
     """Create and return a new parking."""
@@ -41,6 +52,9 @@ def get_parking_by_id(id):
 
 def get_parking_by_metered(metered):
     return Parking.query.filter(Parking.metered == metered).all()
+
+def get_recent_web_comments():
+    return db.session.query(Comment).order_by(Comment.comment_id.desc()).limit(20).all()
 
 def get_parking_by_location(curr_lat, curr_lng, radius):
 

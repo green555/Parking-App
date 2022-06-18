@@ -5,6 +5,8 @@
 
 let currInfoWindow = null;
 let markerArray = [];
+let meterDict = {};
+let currMeter_id;
 
 
 function initMap() {
@@ -29,18 +31,6 @@ function initMap() {
   hideForm('comment-form');
 
   
-  // const loginFormElements = document.querySelector('#login-form').children;
-  // for (const element of loginFormElements) {
-  //   element.setAttribute("hidden", true);
-  // }
-
-  // const signupFormElements = document.querySelector('#signup-form').children;
-  // for (const element of signupFormElements) {
-  //   element.setAttribute("hidden", true);
-  
-  // }
-
-
   // extract current address from browser by event handler
   // send current address to server by POST request, which in turn returns a list of nearby meters 
   document.querySelector("#submit-address").addEventListener('click',
@@ -78,32 +68,32 @@ function initMap() {
     navigator.geolocation.getCurrentPosition(success);
    });
   
-   function success(position) {
-          let curr_lat = position.coords.latitude;
-          let curr_lng = position.coords.longitude;
-          
-          const formInputs = {
-            lat: curr_lat,
-            lng: curr_lng
-          };
-          
-          console.log(formInputs);
-      
-          fetch('/get-nearby-meters', {
-            method: 'POST',
-            body: JSON.stringify(formInputs),
-            headers: {
-              'Content-Type': 'application/json',
-            },
-          })
-          .then((response) => response.json())
-          .then((result) => {
-            removePreviousMarkers();
-            markCurrentAddress(result);
-            markNearbyMeters(result);
-            alert('successfully get your current location'); 
-          });
-      }  
+  function success(position) {
+        let curr_lat = position.coords.latitude;
+        let curr_lng = position.coords.longitude;
+        
+        const formInputs = {
+          lat: curr_lat,
+          lng: curr_lng
+        };
+        
+        console.log(formInputs);
+    
+        fetch('/get-nearby-meters', {
+          method: 'POST',
+          body: JSON.stringify(formInputs),
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        })
+        .then((response) => response.json())
+        .then((result) => {
+          removePreviousMarkers();
+          markCurrentAddress(result);
+          markNearbyMeters(result);
+          alert('successfully get your current location'); 
+        });
+    }  
   
   document.querySelector("#login").addEventListener('click', 
   evt => {
@@ -217,24 +207,46 @@ function initMap() {
 
   });
 
-  document.querySelector('#comment-submit').addEventListener('click',
+  document.querySelector('#web-comment-submit').addEventListener('click',
   evt => {
     evt.preventDefault();
-    const comment = document.querySelector('#comment').value;
-    const meterID = document.querySelector('#comment-list').value;    
-    const commentInput = { comment: comment, meterID: meterID }
-    fetch('/create-new-comment', {
+    const comment = document.querySelector('#web-comment').value;
+    console.log(comment);
+    const commentInput = { web_comment: comment }
+    fetch('/create-web-comment', {
       method: 'POST',
       body: JSON.stringify(commentInput),
       headers: {
         'Content-Type': 'application/json',
       },
     })
-    .then((response) => alert('Comment successfully added!')); // end of .then
+    .then((response) => {}); // end of .then
   
-    }
-  );
+    });
 
+
+  
+  document.querySelector('#comment-submit').addEventListener('click',
+    evt => {
+      evt.preventDefault();
+      const comment = document.querySelector('#comment').value;
+      const score = document.querySelector('#score').value;
+      const meterID = document.querySelector('#comment-list').value;
+      console.log(comment);
+      const commentInput = { comment: comment, score: score, meterID: meterID }
+      fetch('/create-new-comment', {
+        method: 'POST',
+        body: JSON.stringify(commentInput),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+      .then((response) => response.json())
+      .then(data => {
+
+      }) // end of .then
+    
+      });
   // helper function to remove map markers from previous search
 
   function removePreviousMarkers() {
@@ -269,15 +281,12 @@ function initMap() {
   function markNearbyMeters(result) {
 
     let bounds = new google.maps.LatLngBounds();
-    bounds.extend({lat: result.curr_coords.lat, lng: result.curr_coords.lng});
-    // [result.curr_coords.lat - 0.0015, result.curr_coords.lng + 0.0019 ], [result.curr_coords.lat + 0.0015, result.curr_coords.lng - 0.0019]
-    
-    // const selfMarker = new google.maps.Marker({position: currCoords, map: basicMap});
-    
+    bounds.extend({lat: result.curr_coords.lat, lng: result.curr_coords.lng});    
     
 
     for (const coord of result["data"]) {
       const meterCoords = {lat: coord.lat, lng: coord.lng};
+      meterDict[coord.id] = coord;
       const markerInfo = `
         <h1>${coord.street_address}</h1>
         <p>
@@ -285,14 +294,57 @@ function initMap() {
           <code>${coord.lng}</code>
         </p>
         <p>
-          <a onClick={showDetails(${coord.id})}>Details</a>
+          <button id=${coord.id} >Details</button>
         </p>
       `;
+
+      // document.querySelector(`#${coord.id}`).addEventListener('click',
+      //   evt => {
+      //     evt.preventDefault();
+      //     document.querySelector('#Details').innerHTML = `
+      //     <div>
+      //       <h1>${coord.street_address}</h1>
+      //       <p>
+      //          Located at: <code>${coord.lat}</code>,
+      //         <code>${coord.lng}</code>
+      //       </p>
+      //       <p>
+      //        Comment: <code>${coord.comment}</code>
+      //      </p>
+        
+      //     </div>`;
+
+      //   });
 
       const infoWindow = new google.maps.InfoWindow({
             content: markerInfo,
             maxWidth: 200,
           });
+
+      
+      google.maps.event.addListener(infoWindow, "domready", function() {
+        
+        document.getElementById(`${coord.id}`).addEventListener('click', 
+          evt => {
+            evt.preventDefault();
+            document.querySelector('#Details').innerHTML = `
+              <div>
+                <h1>${coord.street_address}</h1>
+                <p>
+                  Located at: <code>${coord.lat}</code>,
+                  <code>${coord.lng}</code>
+                </p>
+                <p id='comment_list'>
+                Comment: <code>${coord.comment}</code>
+                </p>
+                <p id='ave-rate'>
+                Rating: <code>${coord.rate}</code>
+                </p>
+              </div>`;
+
+          });
+        
+      });
       
       const marker = new google.maps.Marker({position: meterCoords, title: null, map: basicMap});
       markerArray.push(marker);
@@ -303,6 +355,7 @@ function initMap() {
             if (currInfoWindow){
               currInfoWindow.close();
             }
+            currMeter_id = coord.id;
             infoWindow.open(basicMap, marker);
             currInfoWindow = infoWindow;
           });
@@ -314,6 +367,52 @@ function initMap() {
     
     basicMap.fitBounds(bounds);
   }
+
+  // console.log(document.querySelector(`#${currMeter_id}`));
+  // document.querySelector(`#${currMeter_id}`).addEventListener('click',
+  //   evt => { 
+  //     console.log('inside event listerner for details butoon');
+  //     console.log(document.querySelector(`#${currMeter_id}`));
+  //     evt.preventDefault();
+  //     currMeter = meterDict[currMeter_id];
+  //     document.querySelector('#Details').innerHTML = `
+  //         <div>
+  //           <h1>${currMeter.street_address}</h1>
+  //           <p>
+  //              Located at: <code>${currMeter.lat}</code>,
+  //             <code>${currMeter.lng}</code>
+  //           </p>
+  //           <p>
+  //            Comment: <code>${currMeter.comment}</code>
+  //          </p>
+        
+  //         </div>`;
+  // });
+  // function Details(props){
+
+  //     const [comment, setComment] = React.useState(props.comments);
+  //     React.useEffect(() => setComment(meterDict[currMeter_id].comments), []);
+    
+  //     return (
+  //     <div>
+  //        <h1>${props.street_address}</h1>
+  //       <p>
+  //         Located at: <code>${props.lat}</code>,
+  //         <code>${props.lng}</code>
+  //       </p>
+  //       <p>
+  //         Comment: <code>${props.comment}</code>
+  //       </p>
+    
+  //     </div>
+  //     );
+  //   }
+    
+  //   ReactDom.render(<Details street_address={meterDict[currMeter_id].street_address}
+  //   comment={meterDict[currMeter_id].comments}
+  //   lat={meterDict[currMeter_id].lat}
+  //   lng={meterDict[currMeter_id].lng} />, document.querySelector('#Details'));
+  
 
   // function addComment(markerArray) {
   //   for(let i=1; i<markerArray.length; i++) {
@@ -337,3 +436,29 @@ function initMap() {
 
 } // end of initMap function
 
+
+
+// function Details(props){
+
+//   const [comment, setComment] = React.useState(props.comments);
+//   React.useEffect(() => setComment(meterDict[currMeter_id].comments), []);
+
+//   return (
+//   <div>
+//      <h1>${props.street_address}</h1>
+//     <p>
+//       Located at: <code>${props.lat}</code>,
+//       <code>${props.lng}</code>
+//     </p>
+//     <p>
+//       Comment: <code>${props.comment}</code>
+//     </p>
+
+//   </div>
+//   );
+// }
+
+// ReactDom.render(<Details street_address={meterDict[currMeter_id].street_address}
+// comment={meterDict[currMeter_id].comments}
+// lat={meterDict[currMeter_id].lat}
+// lng={meterDict[currMeter_id].lng} />, document.querySelector('#Details'));

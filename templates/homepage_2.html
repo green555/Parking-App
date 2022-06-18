@@ -10,9 +10,9 @@
 
   <script src="/static/js/homepage_2.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD6dcW5pE-CSD_XbsVRPhdEfFHSOanDzYU&callback=initMap"></script>
-  <!-- <script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>
-  <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
-  <script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.js"></script> -->
+  <script async crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>
+  <script async crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+  <!-- <script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.js"></script> -->
 
   <h1>Welcome!</h1> <h1 id="user" hidden>{{ session.get('email') }}</h1>
 
@@ -29,6 +29,7 @@
     </select>
     <p>
       Comment <input type="text" name="comment" id="comment">
+      Rating <input type="number" id="score" name="score" min="0" max="5" step="1">
     </p>
     
     <p>
@@ -37,9 +38,30 @@
     </p>
   </form>
 
-  <h2>List view of nearby meters will show below</h2>
+  <section id="Details"></section>
+
+  <form id="submit-web-comment">
+    <h2>Say something if you like this web APP</h2>
+    <p>
+      Comment <input type="text" name="web-comment" id="web-comment">
+    </p>
+    <p>
+      <button id="web-comment-submit">Submit Comment</button>
+    </p>
+
+  </form>
+
+  
+  
+  <section id='recent-web-comments'>
+    <h2>Most recent web comments show here</h2>
+    <script type="text/jsx" src="/static/js/updateComments.jsx"></script>
+  </section>
+  
+  <h2>List view of nearby meters show here</h2>
   <section id="meter_list"></section>  
 
+  
   <section id="get-address">
     <h2>Enter your address and search nearby</h2>
     <form id="address">
@@ -72,7 +94,7 @@
   
   <div id="login-entry">      
       
-      <h2>log in or sign up to leave comments</h2>
+      <h2>log in or sign up to rate/comment a parking spot</h2>
       <button id='login' type="submit" value="login" name="login">Log In</button>      
       <button id='signup' type="submit" value="signup" name="signup">Sign Up</button> 
       
