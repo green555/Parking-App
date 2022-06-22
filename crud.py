@@ -70,7 +70,7 @@ def get_parking_by_location(curr_lat, curr_lng, radius):
     return Parking.query.options(db.joinedload("ratings"))\
             .filter(((Parking.latitude > min_lat)&(Parking.latitude < max_lat)) & ((Parking.longitude > min_lng)&(Parking.longitude < max_lng)))\
             .order_by((Parking.latitude - curr_lat)*(Parking.latitude - curr_lat) + (Parking.longitude - curr_lng)*(Parking.longitude - curr_lng))\
-            .limit(20).all()
+            .limit(15).all()
 
    
     # Human.query.options(db.joinedload("animals")).get(5).animals

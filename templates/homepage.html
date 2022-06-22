@@ -3,109 +3,136 @@
 
 {% block head %}
   <link rel="stylesheet" href="/static/css/maps.css"/>
+  <script src="/static/js/homepage.js"></script>
+  <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD6dcW5pE-CSD_XbsVRPhdEfFHSOanDzYU&callback=initMap"></script>
+  <script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+  <script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.js"></script>
 {% endblock %}
 
 {% block body %}
-  <script>var coords="{{ coords }}";</script>
+  
 
-  <script src="/static/js/homepage.js"></script>
-  <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD6dcW5pE-CSD_XbsVRPhdEfFHSOanDzYU&callback=initMap"></script>
-  <h1>Welcome!</h1>
+  
+
+  <h1>Welcome!</h1> <h1 id="user" hidden>{{ session.get('email') }}</h1>
 
   <section class="map">
     <div id="map"></div>
   </section>
 
-  
-  <div id="meter_list">
-    {% for coord in coords["data"] %}
-        <li>{{coord["street_address"]}}</li>
-    {% endfor %}
-  </div>  
+  <form id="comment-form">
+    <h2>Please leave comment</h2>
 
-
-  <h2>Enter your address</h2>
-  <form action="/address" method=POST>
-    <p>Street Address <input type="text" name="street"></p>
-    <p>City <input type="text" name="city", value="San Francisco"></p>
+    <h3>Pick a meter from searching results</h3>
+    <select id="comment-list">
+      <option id="option" placeholder="select from drop down list"></option>
+    </select>
     <p>
-      State
-      <select name="state">
-        <option value="AR">Arkansas</option>
-        <option value="CA" selected="selected">California</option>
-      </select>	
+      Comment <input type="text" name="comment" id="comment">
+      Rating <input type="number" id="score" name="score" min="0" max="5" step="1">
     </p>
+    
     <p>
-      Search Radius
-      <input type="number" id="radius" name="radius" min="0.1" max="0.5" step="0.1" value="0.1"> Mile(s)
-    </p>
-    <p>
-      <input type="submit" id="submit-address">
+      <button id="comment-submit">Submit Comment</button>
+      
     </p>
   </form>
 
+  <section id="Details"></section>
+
   
+  
+  <h2>Most recent web comments show here</h2>
+  <section id='recent-web-comments'>    
+    <script type="text/jsx" src="/static/js/updateComments.jsx"></script>   
+  </section>
+
+  
+  
+  
+  
+  <h2>List view of nearby meters show here</h2>
+  <div id="status"></div>
+  <section id="meter_list"></section>  
+
+  
+  <section id="get-address">
+    <h2>Enter your address and search nearby</h2>
+    <form id="address">
+      <p>Street Address <input type="text" name="street" id="street"></p>
+      <p>City <input type="text" name="city" id="city" value="San Francisco"></p>
+      <p>
+        State
+        <select name="state" id="state">
+          <option value="AR">Arkansas</option>
+          <option value="CA" selected="selected">California</option>
+        </select>	
+      </p>
+      <p>
+        Search Radius
+        <input type="number" id="radius" name="radius" min="0.1" max="0.5" step="0.1" value="0.1"> Mile(s)
+      </p>
+      <p>
+        <button type="submit" id="submit-address">Search Nearby</button>
+      </p>
+    </form>
+  </section>
+
+    
   <section>
-    <h2>Allow tracking of your current location?</h2>
+    <h2>Automatically locate you and search nearby?</h2>
     <button id="allow_curr_location">OK</button>
   </section>
 
+  
+  
+  <div id="login-entry">      
+      
+      <h2>log in or sign up to rate/comment a parking spot</h2>
+      <button id='login' type="submit" value="login" name="login">Log In</button>      
+      <button id='signup' type="submit" value="signup" name="signup">Sign Up</button> 
+      
+  </div>
 
-  <!-- <section>
-    <h2>log in for more features</h2>
-    <button id="log-in">LOG IN</button>
-    <button id="sign-up">SIGN UP</button>
-  </section> -->
-
-
-
-  <section>
-    <h2>log in to leave comments</h2>
-    <form action="/login">
-      <input type="submit" value="login" name="login"/>
-      <input type="submit" value="signup" name="signup"/>
-  </form>
-  </section>
-
-
-
-  <section id="form">
-  </section>
-
-
-
-  <h2>Create an Account</h2>
-  <form action="/users" method="POST">
+  <button id='logoff' type="submit" value="logoff" name="logoff" hidden>Log Off</button>
+  
+  
+  <form id="login-form">
+    <h2>Please sign in</h2>
     <p>
-      Email <input type="text" name="email">
+      Email <input type="text" name="email" id="email">
     </p>
 
     <p>
-      Password <input type="password" name="password">
+      Password <input type="password" name="password" id="password">
     </p>
-
     <p>
-      <input type="submit">
+      <button id="login-submit">Submit</button>
+      <button id="login-cancel" class="cancel">Cancel</button>
     </p>
+    
   </form>
 
-  <h2>Log In</h2>
-  <form action="/login" method="POST">
+  <form id="signup-form">
+    <h2>Please sign up</h2>
     <p>
-      Email <input type="text" name="email">
+      Email <input type="text" name="email" id="signup-email">
     </p>
 
     <p>
-      Password <input type="password" name="password">
+      Password <input type="password" name="password" id="signup-password">
     </p>
-
     <p>
-      <input type="submit">
+      Confirm Password <input type="password" name="conform-password" id="confirm-password">
+    </p>
+    <p>
+      <button id="signup-submit">Submit</button>
+      <button id="signup-cancel" class="cancel">Cancel</button>
     </p>
   </form>
 
-  <!-- <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD6dcW5pE-CSD_XbsVRPhdEfFHSOanDzYU&callback=markerAdder"></script> -->
-  <!-- <script src="/static/js/homepage.js"></script> -->
+ 
 {% endblock %}
 
 

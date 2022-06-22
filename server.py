@@ -17,28 +17,8 @@ API_KEY = os.environ['API_KEY']
 @app.route('/')
 def homepage():
     session.clear()
-    return render_template('homepage_2.html')
+    return render_template('homepage.html')
 
-# Replace this with routes and view functions!
-
-# @app.route('/api/meters')
-# def get_meters():
-#     lat = curr_coords["lat"]
-#     lng = curr_coords["lng"]
-#     parkings = crud.get_parking_by_location(lat, lng, radius)
-
-#     return jsonify({"data": parkings})
-
-# @app.route('/track_curr_location', methods=["POST"])
-# def track_curr_address():
-#     curr_lat = request.json.get("lat")
-#     curr_lng = request.json.get("lng")
-#     curr_coords = {"lat": curr_lat, "lng": curr_lng}
-#     session["curr_coords"] = curr_coords
-#     session["radius"] = 0.1
-#     # session.modified = True
-#     print('*********inside track_curr_location flask route******', session.get("curr_coords", None))
-#     return redirect("/")
 
 @app.route('/get-nearby-meters', methods=['POST'])
 def get_nearby_meters():
@@ -69,20 +49,6 @@ def get_nearby_meters():
     # parkings.sort(key= ((Parking.latitude - curr_lat) ** 2 + (Parking.longitude - curr_lng) ** 2) )
 
     parks_info = []
-    # begin = i * 20
-    # end = (i+1) * 20
-    # total = len(sorted_parkings)
-    
-    # if end <= total:
-    #     begin = begin
-    #     end = end
-    #     list_end = False
-
-    # elif begin <= total:
-    #     begin = begin
-    #     end = total
-    #     list_end = True    
-
          
     for parking in parkings:
         # print("--------", parking.ratings)
@@ -112,20 +78,7 @@ def get_nearby_meters():
     result_dict = {"data": parks_info, "curr_coords": curr_coords }
     return jsonify(result_dict)
 
-    
 
-
-
-# @app.route('/movies')
-# def all_movies():
-#     """get all movies"""
-#     movies = crud.get_movies()
-#     return render_template('all_movies.html', movies=movies)
-
-# @app.route('/movies/<movie_id>')
-# def movie_detail(movie_id):
-
-#     return render_template('movie_details.html', movie=crud.get_movie_by_id(movie_id))
 
 
 @app.route('/users')
@@ -133,6 +86,7 @@ def all_users():
     """get all users"""
     users = crud.get_users()
     return render_template('all_users.html', users=users)
+
 
 @app.route('/create-new-user', methods=['POST'])
 def creat_user():
@@ -148,18 +102,7 @@ def creat_user():
         session['email'] = email_input
         return jsonify({"data": True})
     else:
-        return jsonify({"data": False})
-
-# @app.route('/login', methods=["GET"])
-# def show_login():
-#     if request.args.get('login') == 'login':
-#         return render_template("login.html")     
-#     elif  request.args.get('signup') == 'signup':
-#         return render_template("signup.html")
-#     elif request.args.get('logoff') == 'logoff':
-#         session.clear()
-#         return redirect('/')
-        
+        return jsonify({"data": False})   
 
     
 
@@ -182,27 +125,7 @@ def login():
         return jsonify({"data": False})
     # return render_template('homepage.html', user_id=user_id)
     
-# @app.route('/signup', methods=['POST'])
-# def signup():
-#     """user signup"""
 
-#     login_email = request.form.get('email')
-#     login_password = request.form.get('password')
-#     confirm_password = request.form.get('confirm-password')
-#     print(login_email)
-#     print(login_password)
-#     print(confirm_password)
-#     if crud.get_user_by_email(login_email):
-#         flash('User exits, Please sign in instead!')
-#         session.clear()
-#         return redirect('/')
-#     elif login_password == confirm_password:
-#         crud.create_user(login_email, confirm_password)
-#         session['email'] = login_email
-#         flash('User created and you are currently login')
-#         return redirect('/')
-#     else:
-#         alert('password does not match, try again')
 
 @app.route('/create-new-comment', methods=['POST'])
 def comment_meter():
@@ -238,11 +161,12 @@ def comment_meter():
     
     return jsonify({"meterID": meterID, "comment_list": comment_list, "rate": rate})
 
+
 @app.route('/get-meter-details/<meterID>')
 def get_meter_details(meterID):
 
     parking = crud.get_parking_by_id(meterID)
-    print('--------------', parking)
+    # print('--------------', parking)
 
     park_address_url = f'https://maps.googleapis.com/maps/api/geocode/json?latlng={parking.latitude},{parking.longitude}&key={API_KEY}'
     address_result = requests.get(park_address_url).json()
@@ -268,6 +192,7 @@ def get_meter_details(meterID):
                 "rate": rate }
 
     return jsonify(park_info)
+
 
 
 @app.route('/create-web-comment', methods=['POST'])
@@ -302,7 +227,7 @@ def recent_web_comments():
         curr_web_comment = { "comment_id": entry.comment_id, "user_email": entry.user_email, "comment": entry.comment }
         web_comment_list.append(curr_web_comment)
 
-    print('**************get the most recent web comments!', recent_web_comments)
+    # print('**************get the most recent web comments!', recent_web_comments)
     return jsonify({"recent_web_comments": web_comment_list})
     
     
