@@ -54,7 +54,7 @@ def get_parking_by_metered(metered):
     return Parking.query.filter(Parking.metered == metered).all()
 
 def get_recent_web_comments():
-    return db.session.query(Comment).order_by(Comment.comment_id.desc()).limit(20).all()
+    return db.session.query(Comment).order_by(Comment.comment_id.desc()).limit(5).all()
 
 def get_parking_by_location(curr_lat, curr_lng, radius):
 
@@ -82,7 +82,9 @@ def create_rating(parking, user, comment, score=None):
     #movie on the left of = is the attribute name, movie on the right of= is movie instance
     return rate
 
+def get_ratings_by_meter_id(meterID):
 
+    return Rating.query.filter(Rating.parking_id == meterID)
 
 if __name__ == '__main__':
     from server import app

@@ -91,17 +91,23 @@ def get_nearby_meters():
         address = address_result["results"][0]["formatted_address"]
         comments = []
         total_score = 0
+        num_of_score = 0
         for entry in parking.ratings:
             comments.append(entry.comment)
-            total_score += entry.score
+            if entry.score:
+                total_score += entry.score
+                num_of_score += 1
 
-
+        if num_of_score > 0:
+            rate = total_score / num_of_score
+        else:
+            rate = None
         # print('*************', address)
         park_info = {"lat": parking.latitude, "lng": parking.longitude, 
                     "street_address": address.split(',')[0], 
                     "id": parking.parking_id, 
                     "comment": comments, 
-                    "rate": total_score/len(parkings) }
+                    "rate": rate }
         parks_info.append(park_info)
     result_dict = {"data": parks_info, "curr_coords": curr_coords }
     return jsonify(result_dict)
@@ -217,6 +223,37 @@ def comment_meter():
     
     return jsonify({"comment_list": comment_list})
 
+@app.route('/get-meter-details/<meterID>')
+def get_meter_details(meterID):
+
+    parking = crud.get_parking_by_id(meterID)
+    print('--------------', parking)
+
+    park_address_url = f'https://maps.googleapis.com/maps/api/geocode/json?latlng={parking.latitude},{parking.longitude}&key={API_KEY}'
+    address_result = requests.get(park_address_url).json()
+    address = address_result["results"][0]["formatted_address"]
+    comments = []
+    total_score = 0
+    num_of_score = 0
+    for entry in parking.ratings:
+        comments.append(entry.comment)
+        if entry.score:
+            total_score += entry.score
+            num_of_score += 1
+
+    if num_of_score > 0:
+        rate = round(total_score / num_of_score, 2)
+    else:
+        rate = None
+    # print('*************', address)
+    park_info = {"lat": parking.latitude, "lng": parking.longitude, 
+                "street_address": address.split(',')[0], 
+                "id": parking.parking_id, 
+                "comment": comments, 
+                "rate": rate }
+
+    return jsonify(park_info)
+
 
 @app.route('/create-web-comment', methods=['POST'])
 def comment_web():
@@ -228,16 +265,30 @@ def comment_web():
     new_web_comment = crud.create_web_comment(web_comment, user_email)
     db.session.add(new_web_comment)
     db.session.commit()
+    new_comment = {
+                    "comment_id": new_web_comment.comment_id,
+                    "user_email": new_web_comment.user_email,
+                    "comment": new_web_comment.comment
+                  }
+                            
+   
     
-    return ('', 204)
+    return jsonify({"new_web_comment": new_comment})
+
 
 
 @app.route('/get-recent-web-comments')
 def recent_web_comments():
 
-    print('-----------', crud.get_recent_web_comments)
+    recent_web_comments = crud.get_recent_web_comments()
+    web_comment_list = []
 
-    return jsonify({"recent_web_comments": crud.get_recent_web_comments})
+    for entry in recent_web_comments:
+        curr_web_comment = { "comment_id": entry.comment_id, "user_email": entry.user_email, "comment": entry.comment }
+        web_comment_list.append(curr_web_comment)
+
+    print('**************get the most recent web comments!', recent_web_comments)
+    return jsonify({"recent_web_comments": web_comment_list})
     
     
     

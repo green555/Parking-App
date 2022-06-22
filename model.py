@@ -90,7 +90,7 @@ class Comment(db.Model):
 
     comment_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     comment = db.Column(db.Text)
-    user_email = db.Column(db.Text, default='anonymouse')
+    user_email = db.Column(db.Text, default='anonymous')
 
     # user = db.relationship("User", backref="comments")
 
