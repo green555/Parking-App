@@ -210,7 +210,9 @@ function initMap() {
      document.querySelector('#logoff').setAttribute("hidden", true);
      showForm('login-entry');
      hideForm('comment-form');
-     document.querySelector('#user').setAttribute("hidden", true)
+     document.querySelector('#user').setAttribute("hidden", true);
+     fetch('/clear-session')
+     .then(response => {});
  
    });
  
@@ -250,6 +252,10 @@ function initMap() {
        })
        .then((response) => response.json())
        .then(data => {
+        if(document.querySelector("#current-detail-meter").innerHTML == meterID) {
+            document.querySelector("#comment-show").innerHTML = data.comment_list;
+            document.querySelector("#rate-show").innerHTML = data.rate;
+        }
  
        }) // end of .then
      
@@ -327,15 +333,16 @@ function initMap() {
               document.querySelector('#Details').innerHTML = `
               <div>
                 <h1>${data.street_address}</h1>
+                <p id="current-detail-meter" hidden>${data.id}</p>
                 <p>
                   Located at: <code>${data.lat}</code>,
                   <code>${data.lng}</code>
                 </p>
                 <p id='comment_list'>
-                Comment: <code>${data.comment}</code>
+                Comment: <code id="comment-show">${data.comment}</code>
                 </p>
                 <p id='ave-rate'>
-                Rating: <code>${data.rate}</code>
+                Rating: <code id='rate-show'>${data.rate}</code>
                 </p>
               </div>`;
 

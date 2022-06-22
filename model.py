@@ -73,7 +73,7 @@ class Rating(db.Model):
                         primary_key=True)
     parking_id = db.Column(db.Integer, db.ForeignKey('parkings.parking_id'))
     user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'))
-    score = db.Column(db.Integer)
+    score = db.Column(db.Integer, nullable=True)
     comment = db.Column(db.Text)
 
     parking = db.relationship('Parking', backref='ratings')

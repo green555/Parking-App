@@ -210,6 +210,9 @@ def comment_meter():
     comment_list = []
     meterID = request.json.get("meterID")
     score = request.json.get("score")
+    # print('score is-------------', score)
+    if score == '':
+        score = None
     comment = request.json.get("comment")    
     user = crud.get_user_by_id(session['user_id'])
     parking = crud.get_parking_by_id(meterID)
@@ -219,9 +222,21 @@ def comment_meter():
     comments = crud.get_ratings_by_meter_id(meterID)
     for comment in comments:
         comment_list.append(comment.comment)
+    
+    total_score = 0
+    num_of_score = 0
+    for entry in parking.ratings:
+        if entry.score:
+            total_score += entry.score
+            num_of_score += 1
+
+    if num_of_score > 0:
+        rate = round(total_score / num_of_score, 2)
+    else:
+        rate = None
     # print('****************', comment_list)
     
-    return jsonify({"comment_list": comment_list})
+    return jsonify({"meterID": meterID, "comment_list": comment_list, "rate": rate})
 
 @app.route('/get-meter-details/<meterID>')
 def get_meter_details(meterID):
@@ -291,7 +306,11 @@ def recent_web_comments():
     return jsonify({"recent_web_comments": web_comment_list})
     
     
-    
+@app.route('/clear-session')
+def clear_session():
+    session.clear()
+    return ('', 204)
+
     
 
 # @app.route('/users/<user_id>')
