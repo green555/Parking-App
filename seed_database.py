@@ -29,8 +29,23 @@ for parking in parking_data['features'][1:1000]:
     latitude = prop['latitude']
     longitude = prop['longitude']
     street_name = prop['street_name']
+    
+    cap_color_dict = {
+                        "Grey": "General parking", 
+                        "Brown": "Tour bus parking", 
+                        "Black": "Motorcycle parking", 
+                        "Purple": "Boat trailer parking", 
+                        "Green": "Short-term parking", 
+                        "Red": "Six-wheeled commercial vehicle",
+                        "Yellow": "Commercial vehicle",
+                        "Blue": "Accessible parking",
+                        "-": "unknown"
+                    }
+    
+    cap_color = prop['cap_color']
+    veh_type = cap_color_dict[cap_color] 
 
-    new_parking = crud.create_parking(latitude=latitude, longitude=longitude, street_name=street_name, metered=True, no_of_spots=1)
+    new_parking = crud.create_parking(latitude=latitude, longitude=longitude, street_name=street_name, veh_type=veh_type, metered=True, no_of_spots=1)
     parking_in_db.append(new_parking)
 
     # TODO: create a movie here and append it to movies_in_db

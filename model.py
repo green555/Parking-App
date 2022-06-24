@@ -51,6 +51,7 @@ class Parking(db.Model):
     max_time = db.Column(db.Integer, nullable=True)
     no_of_spots = db.Column(db.Integer, nullable=True)
     is_available = db.Column(db.Boolean, nullable=True)
+    veh_type = db.Column(db.String, nullable=True)
     zipcode = db.Column(db.Integer, nullable=True)
 
     
