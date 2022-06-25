@@ -28,7 +28,7 @@ def create_web_comment(comment, user_email="anonymouse"):
     web_comment = Comment(comment = comment, user_email = user_email)
     return web_comment
 
-def create_parking(latitude, longitude, metered, street_name, veh_type, no_of_spots, max_time=None, is_available=None, zipcode=None):
+def create_parking(latitude, longitude, metered, capacity, street_name, veh_type, no_of_spots, max_time=None, is_available=None, zipcode=None):
     """Create and return a new parking."""
 
     parking = Parking(
@@ -40,7 +40,8 @@ def create_parking(latitude, longitude, metered, street_name, veh_type, no_of_sp
             no_of_spots=no_of_spots,
             is_available=is_available,
             zipcode=zipcode,
-            veh_type=veh_type            
+            veh_type=veh_type,
+            capacity=capacity            
             )
 
     return parking

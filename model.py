@@ -53,6 +53,8 @@ class Parking(db.Model):
     is_available = db.Column(db.Boolean, nullable=True)
     veh_type = db.Column(db.String, nullable=True)
     zipcode = db.Column(db.Integer, nullable=True)
+    price = db.Column(db.Float, nullable=True)
+    capacity = db.Column(db.String, nullable=True)
 
     
     # example: datetime(2022, 12, 22, 0, 0)

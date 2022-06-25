@@ -21,7 +21,9 @@ function CommentList() {
      .then((response) => response.json())
      .then(data => {
       const updatedComments = [data.new_web_comment, ...currentComments];
-      setCurrentComments(updatedComments.slice(0, -1));
+      setCurrentComments(updatedComments.slice(0, 5));
+      document.querySelector("#web-comment").value = "";
+
       }); // end of .then
     
   }

@@ -303,8 +303,13 @@ function initMap() {
        const markerInfo = `
          <h1>${coord.street_address}</h1>
          <p>
-           Located at: <code>${coord.lat}</code>,
-           <code>${coord.lng}</code>
+           Vehicle type:<br>
+           <code>${coord.veh_type}</code>
+         </p>
+         <p>
+           Capacity:<br>
+           <code>${coord.capacity}</code>
+         </p>   
          </p>
          <p>
            <button id=${coord.id} >Details</button>
@@ -337,6 +342,10 @@ function initMap() {
                 <p>
                   Located at: <code>${data.lat}</code>,
                   <code>${data.lng}</code>
+                </p>
+                <p>
+                  Vehicle type: <code>${data.veh_type}</code><br><br>
+                  Capacity: <code>${data.capacity}</code>
                 </p>
                 <p id='comment_list'>
                 Comment: <code id="comment-show">${data.comment}</code>

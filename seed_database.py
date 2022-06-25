@@ -21,7 +21,7 @@ with open('data/ParkingMeters.geojson') as f:
 # to create fake ratings later
 
 parking_in_db = []
-for parking in parking_data['features'][1:1000]:
+for parking in parking_data['features'][1:3000]:
     # TODO: get the title, overview, and poster_path from the movie
     # dictionary. Then, get the release_date and convert it to a
     # datetime object with datetime.strptime
@@ -39,13 +39,21 @@ for parking in parking_data['features'][1:1000]:
                         "Red": "Six-wheeled commercial vehicle",
                         "Yellow": "Commercial vehicle",
                         "Blue": "Accessible parking",
+                        "White": "Loading/Unloading only",
                         "-": "unknown"
                     }
     
     cap_color = prop['cap_color']
-    veh_type = cap_color_dict[cap_color] 
+    veh_type = cap_color_dict[cap_color]
+    
+    if prop["meter_type"] == 'SS':
+        capacity = "single vehicle"
+    elif prop["meter_type"] == 'MS':
+        capacity = "multi vehicle"
+    else:
+        capacity = None 
 
-    new_parking = crud.create_parking(latitude=latitude, longitude=longitude, street_name=street_name, veh_type=veh_type, metered=True, no_of_spots=1)
+    new_parking = crud.create_parking(latitude=latitude, longitude=longitude, capacity=capacity, street_name=street_name, veh_type=veh_type, metered=True, no_of_spots=1)
     parking_in_db.append(new_parking)
 
     # TODO: create a movie here and append it to movies_in_db

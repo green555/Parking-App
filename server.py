@@ -73,7 +73,10 @@ def get_nearby_meters():
                     "street_address": address.split(',')[0], 
                     "id": parking.parking_id, 
                     "comment": comments, 
-                    "rate": rate }
+                    "rate": rate,
+                    "veh_type": parking.veh_type,
+                    "price": parking.price,
+                    "capacity": parking.capacity }
         parks_info.append(park_info)
     result_dict = {"data": parks_info, "curr_coords": curr_coords }
     return jsonify(result_dict)
@@ -189,7 +192,9 @@ def get_meter_details(meterID):
                 "street_address": address.split(',')[0], 
                 "id": parking.parking_id, 
                 "comment": comments, 
-                "rate": rate }
+                "rate": rate,
+                "capacity": parking.capacity,
+                "veh_type": parking.veh_type }
 
     return jsonify(park_info)
 
