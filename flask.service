@@ -3,8 +3,8 @@ Description=Meter Parking App
 After=network.target
 
 [Service]
-User=Ubuntu
-Group=Ubuntu
+User=ubuntu
+Group=ubuntu
 Environment="LANG=en_US.UTF-8"
 Environment="LANGUAGE=en_US.UTF-8:"
 WorkingDirectory=/home/ubuntu/Parking-App
