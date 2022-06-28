@@ -7,6 +7,7 @@ from model import connect_to_db, db
 import crud
 from jinja2 import StrictUndefined
 import requests
+from passlib.hash import argon2
 
 app = Flask(__name__)
 app.secret_key = "dev"
@@ -99,7 +100,8 @@ def creat_user():
     
     if crud.get_user_by_email(email_input) is None:
         password_input = request.json.get('password')
-        new_user = crud.create_user(email_input, password_input)
+        hashed_password = argon2.hash(password_input)
+        new_user = crud.create_user(email_input, hashed_password)
         db.session.add(new_user)
         db.session.commit()
         session['email'] = email_input
@@ -107,7 +109,19 @@ def creat_user():
     else:
         return jsonify({"data": False})   
 
-    
+# passwd = raw_input("Enter a password: ")
+
+# hashed = argon2.hash(passwd)
+
+# del passwd
+
+# while True:
+#     attempt = raw_input("Verify your password: ")
+#     if argon2.verify(attempt, hashed):
+#         print("Correct!")
+#         break
+#     else:
+#         print("Incorrect!")   
 
 
 @app.route('/get-login-info', methods=['POST'])
@@ -118,7 +132,8 @@ def login():
     login_password = request.json.get('password')
     match_user = crud.get_user_by_email(login_email)
 
-    if match_user and match_user.password == login_password:
+    if match_user and argon2.verify(login_password, match_user.password)
+    # if match_user and match_user.password == login_password:
         user_id = match_user.user_id
         email = match_user.email
         session['user_id'] = user_id
