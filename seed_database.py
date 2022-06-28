@@ -61,20 +61,20 @@ for parking in parking_data['features'][1:3000]:
 db.session.add_all(parking_in_db)
 db.session.commit()
 
-users_in_db = []
-for n in range(10):
-    email = f'user{n}@test.com'  # Voila! A unique email!
-    password = 'test'
-    new_user = crud.create_user(email=email, password=password)
-    users_in_db.append(new_user)
+# users_in_db = []
+# for n in range(10):
+#     email = f'user{n}@test.com'  # Voila! A unique email!
+#     password = 'test'
+#     new_user = crud.create_user(email=email, password=password)
+#     users_in_db.append(new_user)
     
-    user_ratings = []
-    for i in range(10):
+#     user_ratings = []
+#     for i in range(10):
         
-        new_rating = crud.create_rating(user = new_user, parking = choice(parking_in_db), score=randint(1, 5), comment='')
-        user_ratings.append(new_rating)
+#         new_rating = crud.create_rating(user = new_user, parking = choice(parking_in_db), score=randint(1, 5), comment='')
+#         user_ratings.append(new_rating)
     
-    db.session.add_all(user_ratings)
+#     db.session.add_all(user_ratings)
     # model.db.session.commit()
         
 db.session.add_all(users_in_db)
