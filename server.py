@@ -132,7 +132,7 @@ def login():
     login_password = request.json.get('password')
     match_user = crud.get_user_by_email(login_email)
 
-    if match_user and argon2.verify(login_password, match_user.password)
+    if match_user and argon2.verify(login_password, match_user.password):
     # if match_user and match_user.password == login_password:
         user_id = match_user.user_id
         email = match_user.email

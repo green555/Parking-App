@@ -77,7 +77,7 @@ db.session.commit()
 #     db.session.add_all(user_ratings)
     # model.db.session.commit()
         
-db.session.add_all(users_in_db)
-db.session.commit()   
+# db.session.add_all(users_in_db)
+# db.session.commit()   
 
 
