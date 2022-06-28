@@ -374,8 +374,8 @@ function initMap() {
              currInfoWindow = infoWindow;
            });
        
-       document.querySelector('#meter_list').insertAdjacentHTML('beforeend', `<li class='temp-entry'>${coord.id}.\t${coord.street_address}</li>`);
-       document.querySelector('#option').insertAdjacentHTML('beforeend', `<option value=${coord.id} class='temp-entry'>${coord.street_address}</option>`);
+       document.querySelector('#meter_list').insertAdjacentHTML('afterend', `<li class='temp-entry'>${coord.id}.\t${coord.street_address}</li>`);
+       document.querySelector('#option').insertAdjacentHTML('afterend', `<option value=${coord.id} class='temp-entry'>${coord.street_address}</option>`);
  
      }
      
