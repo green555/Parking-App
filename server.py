@@ -34,7 +34,8 @@ def get_nearby_meters():
 
         curr_address_url = f'https://maps.googleapis.com/maps/api/geocode/json?address={address},+{city},+CA&key={API_KEY}'
 
-        
+        print("**********", API_KEY)
+        print("--------curr_address_url", curr_address_url)        
         response = requests.get(curr_address_url).json()
         
         
