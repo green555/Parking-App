@@ -61,6 +61,7 @@ def get_nearby_meters():
 
         print("**********", API_KEY)
         print("--------", address_result)
+        print("###########", parking.latitude, parking.longitude)
         address = address_result["results"][0]["formatted_address"]
         comments = []
         total_score = 0
