@@ -33,8 +33,11 @@ def get_nearby_meters():
         address = curr_street.replace(' ', '+')
 
         curr_address_url = f'https://maps.googleapis.com/maps/api/geocode/json?address={address},+{city},+CA&key={API_KEY}'
+
         
         response = requests.get(curr_address_url).json()
+        print("**********", API_KEY)
+        print("--------", response)
         
         curr_location = response["results"][0]["geometry"]["location"]
         curr_lat = curr_location["lat"]
