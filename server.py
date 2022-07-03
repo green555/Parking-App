@@ -34,8 +34,8 @@ def get_nearby_meters():
 
         curr_address_url = f'https://maps.googleapis.com/maps/api/geocode/json?address={address},+{city},+CA&key={API_KEY}'
 
-        print("**********", API_KEY)
-        print("--------curr_address_url", curr_address_url)        
+        # print("**********", API_KEY)
+        # print("--------curr_address_url", curr_address_url)        
         response = requests.get(curr_address_url).json()
         
         
@@ -59,9 +59,9 @@ def get_nearby_meters():
         park_address_url = f'https://maps.googleapis.com/maps/api/geocode/json?latlng={parking.latitude},{parking.longitude}&key={API_KEY}'
         address_result = requests.get(park_address_url).json()
 
-        print("**********", API_KEY)
-        print("--------", address_result)
-        print("###########", parking.latitude, parking.longitude)
+        # print("**********", API_KEY)
+        # print("--------", address_result)
+        # print("###########", parking.latitude, parking.longitude)
         address = address_result["results"][0]["formatted_address"]
         comments = []
         total_score = 0

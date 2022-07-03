@@ -1,6 +1,4 @@
-* {
-  box-sizing: border-box;
-}
+
 
 body {
   font-family: 'Source Sans Pro', sans-serif;
@@ -42,4 +40,14 @@ nav button:hover {
 
 #links-right {
   margin-left: auto;
+}
+
+h2 {
+  color: 8b8c89
+  
+}
+
+body {
+  background: url("https://www.toptal.com/designers/subtlepatterns/uploads/white_wall_hash.png") center;
+  background-size: cover;
 }

@@ -30,7 +30,7 @@ function initMap() {
   
     hideForm('login-form');
     hideForm('signup-form');
-    hideForm('comment-form');
+    document.querySelector("fieldset").setAttribute("disabled", true);
 
   
     document.querySelector("#submit-address").addEventListener('click',
@@ -45,8 +45,8 @@ function initMap() {
        radius: radius
        } 
      
-     document.querySelector('#meter_list').innerHTML = "";
-     document.querySelector('#status').innerHTML = '<i>Loading...</i>';
+     document.querySelector('#meter_list').innerHTML="";
+     document.querySelector('#status').innerHTML = '<i>Loading</i>';
      fetch('/get-nearby-meters', {
        method: 'POST',
        body: JSON.stringify(addressInput),
@@ -83,6 +83,7 @@ function initMap() {
          
          console.log(formInputs);
 
+         
          document.querySelector('#meter_list').innerHTML = "";
          document.querySelector('#status').innerHTML = '<i>Loading...</i>';
          fetch('/get-nearby-meters', {
@@ -152,7 +153,7 @@ function initMap() {
          if(result.data) {
            alert(`success login as ${email}`);
            hideForm('login-form');
-           showForm('comment-form');
+           document.querySelector("fieldset").removeAttribute("disabled");
            document.querySelector('#logoff').removeAttribute("hidden");
            document.querySelector('#user').removeAttribute("hidden");
            document.querySelector('#user').innerHTML=email;
@@ -189,7 +190,7 @@ function initMap() {
          if(result.data) {
            alert(`Account created and success login as ${email}`);
            hideForm('signup-form');
-           showForm('comment-form');
+           document.querySelector("fieldset").removeAttribute("disabled");
            document.querySelector('#logoff').removeAttribute("hidden");
            document.querySelector('#user').removeAttribute("hidden");
            document.querySelector('#user').innerHTML=email;
@@ -209,7 +210,7 @@ function initMap() {
      evt.preventDefault();
      document.querySelector('#logoff').setAttribute("hidden", true);
      showForm('login-entry');
-     hideForm('comment-form');
+     document.querySelector("fieldset").setAttribute("disabled", true);
      document.querySelector('#user').setAttribute("hidden", true);
      fetch('/clear-session')
      .then(response => {});
@@ -256,8 +257,13 @@ function initMap() {
             document.querySelector("#comment-show").innerHTML = data.comment_list;
             document.querySelector("#rate-show").innerHTML = data.rate;
         }
- 
+        
+
        }) // end of .then
+
+       document.querySelector("#comment").value = "";
+       document.querySelector('#score').value = "";
+       document.querySelector('#comment-list').value = "";
      
        });
    // helper function to remove map markers from previous search
@@ -374,7 +380,7 @@ function initMap() {
              currInfoWindow = infoWindow;
            });
        
-       document.querySelector('#meter_list').insertAdjacentHTML('afterend', `<li class='temp-entry'>${coord.id}.\t${coord.street_address}</li>`);
+       document.querySelector('#meter_list').insertAdjacentHTML('afterend', `<li class='temp-entry'>${coord.street_address}</li>`);
        document.querySelector('#option').insertAdjacentHTML('afterend', `<option value=${coord.id} class='temp-entry'>${coord.street_address}</option>`);
  
      }
@@ -397,6 +403,8 @@ function initMap() {
      element.removeAttribute("hidden");
      }
    }
+
+   
   
   
   
