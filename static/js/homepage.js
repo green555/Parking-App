@@ -30,13 +30,14 @@ function initMap() {
   
     hideForm('login-form');
     hideForm('signup-form');
-    document.querySelector("fieldset").setAttribute("disabled", true);
+    // document.querySelector("fieldset").setAttribute("disabled", true);
 
   
     document.querySelector("#submit-address").addEventListener('click',
     evt => {
      evt.preventDefault();
      const street = document.querySelector("#street").value;
+     if(!street) {alert("Street Address is required!"); return};
      const city = document.querySelector("#city").value;
      const radius = document.querySelector("#radius").value;
      let addressInput = {

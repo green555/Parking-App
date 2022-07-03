@@ -44,6 +44,16 @@ function CommentList() {
 
   return (
     <div>
+      <br></br>
+      <form class="row col-6">
+          <div class="col-5">        
+            <input class="form-control" type="text" name="web-comment" id="web-comment" placeholder="Leave your comment of this App" />
+          </div>        
+          <button class="btn btn-outline-secondary col-auto" id="web-comment-submit" onClick={ (e) => onSubmit(e) }>
+            Submit
+          </button>          
+      </form>
+      <br></br>
       <div className="web-comments">
         {currentComments.map(comment=>
             <WebComment 
@@ -54,19 +64,7 @@ function CommentList() {
             )
         }
       
-      </div>
-
-      <form>
-      <h2>Say something if you like this web APP</h2>
-      <p>
-        Comment <input type="text" name="web-comment" id="web-comment" />
-      </p>
-      <p>
-        <button id="web-comment-submit" onClick={ (e) => onSubmit(e) }>
-          Submit Comment
-        </button>
-      </p>  
-      </form>
+      </div>      
     </div>
   );
 }
@@ -75,10 +73,7 @@ function CommentList() {
 function WebComment(props) {
   return (
     <div>
-       <h5>{props.user_email}</h5>
-       <p>
-        Comment: <code>{props.comment}</code>
-       </p>
+       <text>{props.user_email}: {props.comment}</text>
     </div>
     );
 }

@@ -16,53 +16,51 @@
     
 
     
-  <div class="row">  
-    <h1>Welcome to the Parking Meter Search Page!</h1>
-    <div id="login-entry">
-      <button class="btn btn-outline-primary" id='login' type="submit" value="login" name="login">Log In</button>      
-      <button class="btn btn-outline-primary" id='signup' type="submit" value="signup" name="signup">Sign Up</button>
+  <div class="row col-12 mb-3 gx-3 gy-2 align-items-center justify-content-between">  
+    <div class="col-auto">
+      <h1 class="col-auto">Welcome to the Parking Meter Search Page!</h1>
     </div>
-    <button class="btn btn-outline-primary" id='logoff' type="submit" value="logoff" name="logoff" hidden>Log Off</button>    
-  </div>
-
-    <!-- <div class="row">
-      <div class="col-6 offset-6">
-
-        <div id="login-entry">      
-          <h2>log in or sign up</h2>
-          <button id='login' type="submit" value="login" name="login">Log In</button>      
-          <button id='signup' type="submit" value="signup" name="signup">Sign Up</button>
+    <div class="col-auto">
+      <div class="row justify-content-enter">
+        <div class="col-auto" id="login-entry">
+          <button class="col-auto btn btn-outline-primary" id='login' type="submit" value="login" name="login">Log In</button>      
+          <button class="col-auto btn btn-outline-primary" id='signup' type="submit" value="signup" name="signup">Sign Up</button>
         </div>
-
-        <div>
-          <h2 hidden>log off</h2>
-          <br>   
-          <button id='logoff' type="submit" value="logoff" name="logoff" hidden>Log Off</button>
-        </div>    
-      
-      </div>
-      
-    </div> -->
+        <button class="col-auto btn btn-outline-primary" id='logoff' type="submit" value="logoff" name="logoff" hidden>Log Off</button>
+      </div>     
+    </div>   
+  </div>
     
 
-  <form id="login-form">
-    <div class="mb-3">
-      <h3>Please sign in</h3>
+  <form id="login-form" class="col-2 offset-10">
+    <h3>Please Login</h3>
+    <div class="mb-3 col-auto">      
+      <input type="email" class="form-control" name="email" id="email" placeholder="Email">
     </div>
-    <div class="mb-3">
-      <label for="email" class="form-label">Email Address</label>
-      <input type="email" class="form-control" name="email" id="email">
+    <div class="mb-3 col-auto">      
+      <input type="password" class="form-control" name="password" id="password" placeholder="Password">
     </div>
+    <div class="col-auto">
+      <button type="submit" class="btn btn-outline-secondary" id="login-submit">Login</button>
+      <button type="submit" class="btn btn-outline-secondary" id="login-cancel">Cancel</button>
+    </div>    
+  </form>
 
-    <div class="mb-3">
-      <label for="password" class="form-label">Password</label>
-      <input type="password" class="form-control" name="password" id="password">
+  <form id="signup-form" class="col-2 offset-10">    
+    <h3>Please Signup</h3>
+    <div class="mb-3 col-auto">
+      <input type="email" class="form-control" name="email" id="signup-email" placeholder="Email">
+    </div>
+    <div class="mb-3 col-auto">
+      <input type="password" class="form-control" name="password" id="signup-password" placeholder="Password">
+    </div>
+    <div class="mb-3 col-auto">
+      <input type="password" class="form-control" name="conform-password" id="confirm-password" placeholder="Confirm Password">
     </div>
     <div>
-      <button type="submit" class="btn btn-outline-primary" id="login-submit">Submit</button>
-      <button type="submit" class="btn btn-outline-primary" id="login-cancel">Cancel</button>
+      <button type="submit" class="btn btn-outline-secondary" id="signup-submit">Signup</button>
+      <button type="submit" class="btn btn-outline-secondary" id="signup-cancel" class="cancel">Cancel</button>
     </div>
-    
   </form>
 
   
@@ -106,83 +104,58 @@
     
 
 
-    <div class="row" style="height: 800px;">
-
-      <div class="col-6" class="map">
-        <div id="map"></div>
-      </div>
-      
-      <div class="col-2">
-        <h2>Nearby meters</h2>
-        <br>
-        <div id="status"></div>
-        <section id="meter_list"></section>
-      </div>
-
-      <div class="col-4">      
-        
-        <form id="comment-form">          
-          <fieldset disabled>
-            <div class="mb-3">
-              <h3>Comment on a meter (sign-in only)</h3>
-            </div>            
-            <div class="row mb-3">
-              <label class="col-3 col-form-label">Select Meter</label>
-              <div class="col-6">
-                <select class="form-select" id="comment-list">
-                  <option id="option" selected>Select from the drop down list</option>
-                </select>
-              </div>
-            </div>          
-            <div class="row mb-3">
-              <label for="comment" class="col-3 col-form-label">Enter Comment</label>
-              <div class="col-6">
-                <input class="form-control" type="text" name="comment" id="comment" size="20">
-              </div>
+  <div class="row" style="height: 800px;">
+    <div class="col-6" class="map">
+      <div id="map"></div>
+    </div>      
+    <div class="col-4">
+      <h3>Nearby meters</h3>
+      <div id="status"></div>
+      <section id="meter_list">...</section>
+      <br>
+      <button class="btn btn-outline-primary" type="button" data-bs-toggle="collapse" data-bs-target="#comment-form" aria-expanded="false" aria-controls="comment-form">
+        Rate a meter (signin only)
+      </button>
+      <br><br>
+      <form class="collapse" id="comment-form">          
+        <fieldset>         
+          <div class="row mb-3">              
+            <div class="col-6">
+              <select class="form-select" id="comment-list">
+                <option id="option" selected>Choose meter</option>
+              </select>
             </div>
-            <div class="row mb-3">
-              <label for="score" class="col-3 col-form-label">Rating</label>
-              <div class="col-2">
-                <input class="form-control" type="number" id="score" name="score" min="0" max="5" step="1">
-              </div>
-            </div>            
-            <button class="btn btn-primary" id="comment-submit">Submit Comment</button>            
-          </fieldset>  
-        </form>
-      </div>
-
+          </div>          
+          <div class="row mb-3">
+            <div class="col-auto">
+              <input class="form-control" type="text" name="comment" id="comment" size="20" placeholder="Comment">
+            </div>
+            <label for="score" class="col-auto col-form-label">Rate</label>
+            <div class="col-auto">
+              <input class="form-control" type="number" id="score" name="score" min="0" max="5" step="1">
+            </div>
+          </div>          
+          <button class="btn btn-outline-primary" id="comment-submit">Submit Comment</button>            
+        </fieldset>  
+      </form>
     </div>
+  </div>
 
     
 
-    <section id="Details"></section>   
-      <h2>Most recent web comments show here</h2>
-      <section id='recent-web-comments'>    
-        <script type="text/jsx" src="/static/js/updateComments.jsx"></script>   
-    </section>
+  <section id="Details"></section>   
+    
+    <section id='recent-web-comments'>    
+      <script type="text/jsx" src="/static/js/updateComments.jsx"></script>
+    </section>  
+  </section>
 
 
     
     
     
 
-    <form id="signup-form">
-      <h3>Please sign up</h3>
-      <p>
-        Email <input type="text" name="email" id="signup-email">
-      </p>
-
-      <p>
-        Password <input type="password" name="password" id="signup-password">
-      </p>
-      <p>
-        Confirm Password <input type="password" name="conform-password" id="confirm-password">
-      </p>
-      <p>
-        <button id="signup-submit">Submit</button>
-        <button id="signup-cancel" class="cancel">Cancel</button>
-      </p>
-    </form>
+    
 
   
 {% endblock %}
