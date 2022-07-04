@@ -51,7 +51,7 @@ function CommentList() {
           </div>        
           <button className="btn btn-outline-secondary col-auto" id="web-comment-submit" onClick={ (e) => onSubmit(e) }>
             Submit
-          </button>          
+          </button>        
       </form>
       <br></br>
       <div className="web-comments">

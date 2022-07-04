@@ -64,5 +64,9 @@ code {
   color: #03045e;
 }
 
-
+.flex-example {
+  flex-direction: row;
+  flex-wrap: wrap;
+  grid-auto-rows: 1fr;
+}
 

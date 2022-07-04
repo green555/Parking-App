@@ -93,8 +93,7 @@
       </div>
       <div class="row col-12">
         <button class="btn btn-outline-primary col-6" type="submit" id="submit-address">Use address below</button>
-        <button class="btn btn-outline-primary col-6" id="allow_curr_location">Use my current location</button>
-        
+        <button class="btn btn-outline-primary col-6" id="allow_curr_location">Use my current location</button>        
       </div>
       <div class="row mb-3 gx-3 gy-2 align-items-center">
         <label for="street" class="col-auto col-form-label">Street Address</label>
@@ -119,8 +118,8 @@
     
 
 
-  <div class="row" style="height: 800px;">
-    <div class="col-12 col-md-6" class="map">
+  <div class="row flex-example" style="">
+    <div class="col-12 col-md-6" class="map" style="height: 800px;">
       <div id="map"></div>
     </div>      
     <div class="col-12 col-md-4">
@@ -153,21 +152,15 @@
           <button class="btn btn-outline-primary" id="comment-submit">Submit Comment</button>            
         </fieldset>  
       </form>
-    </div>
+    </div> 
   </div>
 
-    
-  <section id='recent-web-comments'>    
-    <script type="text/jsx" src="/static/js/updateComments.jsx"></script>
-  </section>  
-  
-
-
-    
-    
-    
-
-    
+  <div class="row col-12">  
+    <section id='recent-web-comments'>    
+      <script type="text/jsx" src="/static/js/updateComments.jsx"></script>
+    </section>
+  </div>
+   
 
   
 {% endblock %}
