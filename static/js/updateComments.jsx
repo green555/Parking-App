@@ -45,9 +45,9 @@ function CommentList() {
   return (
     <div>
       <br></br>
-      <form className="row col-6">
-          <div className="col-5">        
-            <input className="form-control" type="text" name="web-comment" id="web-comment" placeholder="Leave your comment of this App" />
+      <form className="row col-12 col-md-6">
+          <div className="col-12 col-md-6">        
+            <input className="form-control col-auto" type="text" name="web-comment" id="web-comment" placeholder="Leave your comment of this App" />
           </div>        
           <button className="btn btn-outline-secondary col-auto" id="web-comment-submit" onClick={ (e) => onSubmit(e) }>
             Submit
