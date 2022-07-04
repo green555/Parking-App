@@ -111,7 +111,9 @@ def creat_user():
         new_user = crud.create_user(email_input, hashed_password)
         db.session.add(new_user)
         db.session.commit()
+        new_user = crud.get_user_by_email(email_input)
         session['email'] = email_input
+        session['user_id'] = new_user.user_id
         return jsonify({"data": True})
     else:
         return jsonify({"data": False})   
