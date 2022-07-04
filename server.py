@@ -116,20 +116,6 @@ def creat_user():
     else:
         return jsonify({"data": False})   
 
-# passwd = raw_input("Enter a password: ")
-
-# hashed = argon2.hash(passwd)
-
-# del passwd
-
-# while True:
-#     attempt = raw_input("Verify your password: ")
-#     if argon2.verify(attempt, hashed):
-#         print("Correct!")
-#         break
-#     else:
-#         print("Incorrect!")   
-
 
 @app.route('/get-login-info', methods=['POST'])
 def login():
@@ -169,7 +155,8 @@ def comment_meter():
     db.session.commit()
     comments = crud.get_ratings_by_meter_id(meterID)
     for comment in comments:
-        comment_list.append(comment.comment)
+        if comment.comment:
+            comment_list.append(comment.comment)
     
     total_score = 0
     num_of_score = 0

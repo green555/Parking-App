@@ -19,8 +19,8 @@ function initMap() {
 
   window.addEventListener('load', function() {
     // your code here
-    console.log('before create map!');
-    console.log(document.querySelector('#map'));
+    // console.log('before create map!');
+    // console.log(document.querySelector('#map'));
     const basicMap = new google.maps.Map(document.querySelector('#map'), {
 
       center: sfBayCoords,
@@ -31,7 +31,7 @@ function initMap() {
     hideForm('login-form');
     hideForm('signup-form');
     // document.querySelector("fieldset").setAttribute("disabled", true);
-
+    document.querySelector("#comment-form-show").setAttribute("disabled", true);
   
     document.querySelector("#submit-address").addEventListener('click',
     evt => {
@@ -82,7 +82,7 @@ function initMap() {
            lng: curr_lng
          };
          
-         console.log(formInputs);
+        //  console.log(formInputs);
 
          
          document.querySelector('#meter_list').innerHTML = "";
@@ -158,6 +158,8 @@ function initMap() {
            document.querySelector('#logoff').removeAttribute("hidden");
            document.querySelector('#user').removeAttribute("hidden");
            document.querySelector('#user').innerHTML=email;
+           document.querySelector("#comment-form-show").removeAttribute("disabled");
+           document.querySelector("#comment-form-show").innerHTML="Rate a meter";
          }
          else {alert('email or password is incorrect, please try again.');} 
        });// end of .then
@@ -195,6 +197,8 @@ function initMap() {
            document.querySelector('#logoff').removeAttribute("hidden");
            document.querySelector('#user').removeAttribute("hidden");
            document.querySelector('#user').innerHTML=email;
+           document.querySelector("#comment-form-show").removeAttribute("disabled");
+           document.querySelector("#comment-form-show").innerHTML="Rate a meter";
          }
          else {
            alert('Account already exits. Please sign in');
@@ -213,6 +217,20 @@ function initMap() {
      showForm('login-entry');
      document.querySelector("fieldset").setAttribute("disabled", true);
      document.querySelector('#user').setAttribute("hidden", true);
+     const ariaExpand=document.querySelector("#comment-form-show").getAttribute("aria-expanded");
+     document.querySelector("#comment-form-show").innerHTML="Rate a meter (Please Login)";
+    //  console.log(typeof ariaExpand);
+     if (ariaExpand=='true') {
+     
+     document.querySelector("#comment-form-show").click();
+     
+     }
+    //  if (ariaExpand == true) {
+    //   document.querySelector("#comment-form-show").click();
+    //  };
+     
+     document.querySelector("#comment-form-show").setAttribute("aria-expanded", false);
+     document.querySelector("#comment-form-show").setAttribute("disabled", true);
      fetch('/clear-session')
      .then(response => {});
  
@@ -243,7 +261,7 @@ function initMap() {
        const comment = document.querySelector('#comment').value;
        const score = document.querySelector('#score').value;
        const meterID = document.querySelector('#comment-list').value;
-       console.log(comment);
+      //  console.log(comment);
        const commentInput = { comment: comment, score: score, meterID: meterID }
        fetch('/create-new-comment', {
          method: 'POST',
@@ -262,9 +280,9 @@ function initMap() {
 
        }) // end of .then
 
-       document.querySelector("#comment").value = "";
-       document.querySelector('#score').value = "";
-       document.querySelector('#comment-list').value = "";
+       document.querySelector("#comment").value = null;
+       document.querySelector('#score').value = null;
+       document.querySelector('#comment-list').value = null;
      
        });
    // helper function to remove map markers from previous search
@@ -308,7 +326,7 @@ function initMap() {
        const meterCoords = {lat: coord.lat, lng: coord.lng};
        meterDict[coord.id] = coord;
        const markerInfo = `
-         <h1>${coord.street_address}</h1>
+         <h6>${coord.street_address}</h6>
          <p>
            Vehicle type:<br>
            <code>${coord.veh_type}</code>
@@ -319,8 +337,9 @@ function initMap() {
          </p>   
          </p>
          <p>
-           <button id=${coord.id} >Details</button>
+           <button id=${coord.id} class="btn btn-success btn-sm">Details</button>
          </p>
+         <section id="infoWindo-Details"></section> 
        `;
  
  
@@ -342,9 +361,9 @@ function initMap() {
 
               // console.log(data);
 
-              document.querySelector('#Details').innerHTML = `
+              document.querySelector('#infoWindo-Details').innerHTML = `
               <div>
-                <h1>${data.street_address}</h1>
+                
                 <p id="current-detail-meter" hidden>${data.id}</p>
                 <p>
                   Located at: <code>${data.lat}</code>,
@@ -361,9 +380,11 @@ function initMap() {
                 Rating: <code id='rate-show'>${data.rate}</code>
                 </p>
               </div>`;
+              
 
 
-             });         
+             });
+            //  document.getElementById(`${coord.id}`).setAttribute("disabled", true);         
        });
       });
        
