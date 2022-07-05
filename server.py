@@ -45,7 +45,7 @@ def get_nearby_meters():
     else:
         curr_lat = request.json.get("lat")
         curr_lng = request.json.get("lng")
-        curr_radius = 0.3
+        curr_radius = 0.5
 
     curr_coords = {"lat": curr_lat, "lng": curr_lng}
     parkings = crud.get_parking_by_location(curr_lat, curr_lng, curr_radius)
