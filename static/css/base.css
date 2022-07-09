@@ -70,3 +70,17 @@ code {
   grid-auto-rows: 1fr;
 }
 
+.btn-outline-primary:hover {
+  background-color: #6a4c93 !important;
+  color: white !important;
+}
+
+.btn-outline-primary {
+  
+  border-color: #6a4c93 !important;
+  font-size: 18px;
+  /* background-color: #f0e6ef !important; */
+  color: #6a4c93 !important;
+  
+}
+
