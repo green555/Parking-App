@@ -1,7 +1,7 @@
 
 
 body {
-  font-family: 'Source Sans Pro', sans-serif;
+  font-family: 'DM Serif Text', sans-serif;
 }
 
 /* nav {
@@ -84,3 +84,20 @@ code {
   
 }
 
+input[type="text"]:focus, input[type="email"]:focus, input[type="password"]:focus {
+  border-color:#6a4c93 !important;
+  outline: none !important;
+  /* box-shadow: 0px !important; */
+}
+
+#signup-email:focus {
+  border-color:#6a4c93 !important;
+  outline: none !important;
+  /* box-shadow: 0px !important; */
+}
+
+/* input[type="text"]:focus.form-control {
+  border-color:#6a4c93 !important;
+  outline: none !important;
+  box-shadow: 0px !important;
+} */

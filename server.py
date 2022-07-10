@@ -21,6 +21,11 @@ def homepage():
     return render_template('homepage.html')
 
 
+@app.route('/landing')
+def landing():
+    return render_template('landing.html')
+
+
 @app.route('/get-nearby-meters', methods=['POST'])
 def get_nearby_meters():
     

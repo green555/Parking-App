@@ -152,7 +152,7 @@ function initMap() {
        .then((response) => response.json())
        .then((result) => {
          if(result.data) {
-           alert(`success login as ${email}`);
+          //  alert(`success login as ${email}`);
            hideForm('login-form');
            document.querySelector("fieldset").removeAttribute("disabled");
            document.querySelector('#logoff').removeAttribute("hidden");
