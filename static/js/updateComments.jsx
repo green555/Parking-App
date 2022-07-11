@@ -73,7 +73,7 @@ function CommentList() {
 function WebComment(props) {
   return (
     <div>
-       <li>{props.user_email}: <span className="props-comment">{props.comment}</span></li>
+       <li className="user-email">{props.user_email}: <span className="props-comment">{props.comment}</span></li>
     </div>
     );
 }

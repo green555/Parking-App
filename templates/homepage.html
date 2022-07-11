@@ -21,12 +21,12 @@
   <div class="mb-0 row col-12">
     
   </div>
-  <div class="row col-12 mb-3 mt-3 gx-3 gy-2 align-items-center justify-content-between">  
-    <div class="col-auto">      
-      <h1 class="col-auto">Welcome <span id="user">{{ session.get('email', '') }} </span> to the Parking Meter Search Page!</h1>      
+  <div class="row col-12 mb-3 mt-3 gx-3 gy-2 align-items-center justify-content-between top-block">  
+    <div class="col-auto justify-content-center">      
+      <h1 class="col-auto title">Welcome <span id="user">{{ session.get('email', '') }} </span> to the Parking Meter Search Page!</h1>      
     </div>
     <div class="col-auto">
-      <div class="row justify-content-enter">
+      <div class="row justify-content-center">
         <br>
         <div class="col-auto" id="login-entry">
           <button class="col-auto btn btn-outline-primary" id='login' type="submit" value="login" name="login">Log In</button>      
@@ -53,7 +53,7 @@
     </div>
     
     <div class="col-auto">
-      <button type="submit" class="btn btn-outline-secondary" id="login-submit">Login</button>
+      <button type="submit" class="btn btn-outline-primary" id="login-submit">Login</button>
       <button type="submit" class="btn btn-outline-secondary" id="login-cancel">Cancel</button>
     </div>
     <br>   
@@ -74,7 +74,7 @@
       <input type="password" class="form-control" name="conform-password" id="confirm-password" placeholder="Confirm Password">
     </div>
     <div>
-      <button type="submit" class="btn btn-outline-secondary" id="signup-submit">Signup</button>
+      <button type="submit" class="btn btn-outline-primary" id="signup-submit">Signup</button>
       <button type="submit" class="btn btn-outline-secondary" id="signup-cancel" class="cancel">Cancel</button>
     </div>
     <br>
@@ -86,51 +86,59 @@
   
   
   
-  <div class="row col-12 col-md-6 mb-3">
+  <div class="row col-12 col-md-7 mb-3">
     <form class="row col-12" id="address">
       <div class="row mb-3 col-12">
         <h3 id="search-title">Search nearby meters</h3>
       </div>
       <div class="row mb-3 col-12">
-        <button class="btn btn-outline-primary col-6" type="submit" id="submit-address">Use address below</button>
-        <button class="btn btn-outline-primary col-6" id="allow_curr_location">Use my current location</button>        
+        <button class="btn btn-outline-primary col-5 main-button" type="submit" id="submit-address">Use address below</button>
+        <button class="btn btn-outline-primary col-5 main-button" id="allow_curr_location">Use my current location</button>        
       </div>
-      <div class="row mb-3 gx-3 gy-2 align-items-center">
+      <div class="row mb-3 gx-3 gy-2 align-items-center street-line">
         <label for="street" class="col-auto col-form-label">Street Address</label>
         <input class="col-auto" type="text" name="street" id="street" required>
         <label for="city" class="col-auto col-form-label">City</label>
         <input class="col-auto" type="text" name="city" id="city" value="San Francisco" disabled>
         <label class="col-auto col-form-label">State</label>
         <div class="col-auto">            
-          <select class="form-select" name="state" id="state" disabled>
-            <option value="AR">Arkansas</option>
-            <option value="CA" selected="selected">California</option>
+          <select class="form-select option-text" name="state" id="state" disabled>
+            <option class="option-text" value="AR">Arkansas</option>
+            <option class="option-text" value="CA" selected="selected">California</option>
           </select>
         </div>       
         <div class="col-auto">
-          <span for="radius" class="col-auto">Radius</label>
-          <input class="col-auto" type="number" id="radius" name="radius" data-decimals="2" min="0.1" max="0.5" step="0.1" value="0.1"/> 
-          <span class="col-auto">Mile</span>
+          <span for="radius" class="col-auto label-text">Radius</label>
+          <input class="col-auto label-text" type="number" id="radius" name="radius" data-decimals="2" min="0.1" max="0.5" step="0.1" value="0.1"/> 
+          <span class="col-auto label-text">Mile</span>
         </div>
-      </div>      
+      </div>
+      <!-- <div class="row mb-3 col-12">
+        <button class="btn btn-outline-primary col-5 main-button" type="submit" id="submit-address">Use address below</button>
+        <button class="btn btn-outline-primary col-5 main-button" id="allow_curr_location">Use my current location</button>        
+      </div>       -->
     </form>
   </div>
     
 
 
   <div class="row flex-example" style="">
-    <div class="col-12 col-md-6" class="map" style="height: 800px;">
+    <div class="col-12 col-md-8" class="map" style="height: 800px;">
       <div id="map"></div>
     </div>      
     <div class="col-12 col-md-4">
+      <div class="row meter-list-block">
       <h3>Nearby meters</h3>
       <div id="status"></div>
       <section id="meter_list">...</section>
       <br>
-      <button id="comment-form-show" class="btn btn-outline-primary" type="button" data-bs-toggle="collapse" data-bs-target="#comment-form" aria-controls="comment-form">
+      </div>
+      <br><br>
+      <!-- <div class="row rate-meter-block"> -->
+      <button id="comment-form-show" class="btn btn-outline-primary col-auto" type="button" data-bs-toggle="collapse" data-bs-target="#comment-form" aria-controls="comment-form">
         Rate a meter (Please Login)
       </button>
-      <br><br>
+      <br>
       <form class="collapse" id="comment-form">
         <fieldset>         
           <div class="row mb-3">              
@@ -152,6 +160,7 @@
           <button class="btn btn-outline-primary" id="comment-submit">Submit Comment</button>            
         </fieldset>  
       </form>
+    <!-- </div> -->
     </div> 
   </div>
 
