@@ -53,12 +53,12 @@ li.user-email h3 {
 
 
 h1.title, h3 {
-  color: #331566;
+  color: #252525;
 }
 
 body {
   /* background: url("https://www.toptal.com/designers/subtlepatterns/uploads/white_wall_hash.png") center; */
-  background-color: lavender;
+  background-color: whitesmoke;
   /* background-size: cover; */
 }
 
@@ -68,6 +68,7 @@ body {
 
 #search-title {
   color: #2e4583;
+  /* color: #ec7d10; */
 }
 
 .flex-example {
