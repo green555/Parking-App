@@ -36,6 +36,14 @@ li.user-email h3 {
   color: #293556;
 }
 
+#veh-type, #state {
+  height: 32px;
+  font-size: 14px;
+  border-color:#6a4c93 !important;
+  border-radius: 4px;
+  box-shadow: none !important;
+}
+
 /* div.top-block {
   background-color: #8e9aaf;
 } */
@@ -97,8 +105,12 @@ button.main-button {
   margin-left: 12px !important;
 }
 
-.street-line {
+.street-line{
   margin-left: 0px !important;
+}
+
+.type-line {
+  margin-left: -8px !important;
 }
 
 .temp-entry {

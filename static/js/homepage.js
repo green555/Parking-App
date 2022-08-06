@@ -40,10 +40,12 @@ function initMap() {
      if(!street) {alert("Street Address is required!"); return};
      const city = document.querySelector("#city").value;
      const radius = document.querySelector("#radius").value;
+     const veh_type = document.querySelector('#veh-type').value;
      let addressInput = {
        street: street,
        city: city,
-       radius: radius
+       radius: radius,
+       veh_type: veh_type
        } 
      
      document.querySelector('#meter_list').innerHTML="";

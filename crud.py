@@ -58,7 +58,7 @@ def get_parking_by_metered(metered):
 def get_recent_web_comments():
     return db.session.query(Comment).order_by(Comment.comment_id.desc()).limit(5).all()
 
-def get_parking_by_location(curr_lat, curr_lng, radius):
+def get_parking_by_location(curr_lat, curr_lng, radius, veh_type):
 
     print("*****", radius)
     dis_lat = float(radius) / 69
@@ -68,12 +68,18 @@ def get_parking_by_location(curr_lat, curr_lng, radius):
     min_lng = curr_lng - dis_lng
     max_lng = curr_lng + dis_lng
 
-    
-    return Parking.query.options(db.joinedload("ratings"))\
-            .filter(((Parking.latitude > min_lat)&(Parking.latitude < max_lat)) & ((Parking.longitude > min_lng)&(Parking.longitude < max_lng)))\
-            .order_by((Parking.latitude - curr_lat)*(Parking.latitude - curr_lat) + (Parking.longitude - curr_lng)*(Parking.longitude - curr_lng))\
-            .limit(15).all()
+    if veh_type == 'All types':
+        parkings = Parking.query.options(db.joinedload("ratings"))\
+                .filter(((Parking.latitude > min_lat)&(Parking.latitude < max_lat)) & ((Parking.longitude > min_lng)&(Parking.longitude < max_lng)))\
+                .order_by((Parking.latitude - curr_lat)*(Parking.latitude - curr_lat) + (Parking.longitude - curr_lng)*(Parking.longitude - curr_lng))\
+                .limit(15).all()
+    else:
+        parkings = Parking.query.options(db.joinedload("ratings"))\
+                .filter(((Parking.latitude > min_lat)&(Parking.latitude < max_lat)) & ((Parking.longitude > min_lng)&(Parking.longitude < max_lng)) & (Parking.veh_type == veh_type))\
+                .order_by((Parking.latitude - curr_lat)*(Parking.latitude - curr_lat) + (Parking.longitude - curr_lng)*(Parking.longitude - curr_lng))\
+                .limit(15).all()
 
+    return parkings
    
     # Human.query.options(db.joinedload("animals")).get(5).animals
 

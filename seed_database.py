@@ -21,7 +21,7 @@ with open('data/ParkingMeters.geojson') as f:
 # to create fake ratings later
 
 parking_in_db = []
-for parking in parking_data['features'][1:5000]:
+for parking in parking_data['features']:
     # TODO: get the title, overview, and poster_path from the movie
     # dictionary. Then, get the release_date and convert it to a
     # datetime object with datetime.strptime
