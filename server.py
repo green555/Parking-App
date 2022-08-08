@@ -33,7 +33,8 @@ def get_nearby_meters():
         curr_street = request.json.get("street")
         curr_city = request.json.get("city")
         curr_radius = request.json.get("radius")
-        curr_veh_type = request.json.get("veh_type")
+        #curr_veh_type = request.json.get("veh_type")
+        curr_veh_type = 'All types'
         #print('----------', curr_veh_type)
         curr_list = request.json.get('i')
         city = curr_city.replace(' ', '+')
@@ -53,6 +54,7 @@ def get_nearby_meters():
         curr_lat = request.json.get("lat")
         curr_lng = request.json.get("lng")
         curr_radius = 0.5
+        curr_veh_type = 'All types'
 
     curr_coords = {"lat": curr_lat, "lng": curr_lng}
     parkings = crud.get_parking_by_location(curr_lat, curr_lng, curr_radius, curr_veh_type)

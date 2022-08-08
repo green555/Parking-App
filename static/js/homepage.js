@@ -40,12 +40,12 @@ function initMap() {
      if(!street) {alert("Street Address is required!"); return};
      const city = document.querySelector("#city").value;
      const radius = document.querySelector("#radius").value;
-     const veh_type = document.querySelector('#veh-type').value;
+    //  const veh_type = document.querySelector('#veh-type').value;
      let addressInput = {
        street: street,
        city: city,
        radius: radius,
-       veh_type: veh_type
+      //  veh_type: veh_type
        } 
      
      document.querySelector('#meter_list').innerHTML="";
@@ -72,6 +72,7 @@ function initMap() {
    document.querySelector("#allow_curr_location").addEventListener('click', 
     evt => {
      evt.preventDefault();
+     document.querySelector('#street').value = "";
      navigator.geolocation.getCurrentPosition(success);
     });
    
@@ -88,6 +89,7 @@ function initMap() {
 
          
          document.querySelector('#meter_list').innerHTML = "";
+         
          document.querySelector('#status').innerHTML = '<i>Loading...</i>';
          fetch('/get-nearby-meters', {
            method: 'POST',
