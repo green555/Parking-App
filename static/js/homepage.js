@@ -40,12 +40,12 @@ function initMap() {
      if(!street) {alert("Street Address is required!"); return};
      const city = document.querySelector("#city").value;
      const radius = document.querySelector("#radius").value;
-    //  const veh_type = document.querySelector('#veh-type').value;
+     const veh_type = document.querySelector('#veh-type').value;
      let addressInput = {
        street: street,
        city: city,
        radius: radius,
-      //  veh_type: veh_type
+       veh_type: veh_type
        } 
      
      document.querySelector('#meter_list').innerHTML="";
@@ -79,10 +79,14 @@ function initMap() {
    function success(position) {
          let curr_lat = position.coords.latitude;
          let curr_lng = position.coords.longitude;
+         const radius = document.querySelector("#radius").value;
+         const veh_type = document.querySelector('#veh-type').value;
          
          const formInputs = {
            lat: curr_lat,
-           lng: curr_lng
+           lng: curr_lng,
+           radius: radius,
+           veh_type: veh_type
          };
          
         //  console.log(formInputs);
